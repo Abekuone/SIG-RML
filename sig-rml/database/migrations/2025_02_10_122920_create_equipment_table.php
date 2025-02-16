@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('type');
             $table->integer('quantity')->default(1);
             $table->enum('status', ['available', 'reserved', 'under maintenance', 'out of service'])->default('available');
-            $table->foreignId('laboratory_id')->constrained('laboratories')->onDelete('cascade');
+            $table->foreignUuid('laboratory_id')->constrained('laboratories')->onDelete('cascade');
             $table->boolean('is_shared')->default(false);
             $table->timestamps();
         });

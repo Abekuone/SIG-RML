@@ -11,8 +11,8 @@ return new class extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('reservation_id')->constrained('reservations')->onDelete('cascade');
+            $table->foreignUuid('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignUuid('reservation_id')->constrained('reservations')->onDelete('cascade');
             $table->text('message');
             $table->dateTime('sent_at');
             $table->enum('type', ['confirmation', 'reminder', 'cancellation']);

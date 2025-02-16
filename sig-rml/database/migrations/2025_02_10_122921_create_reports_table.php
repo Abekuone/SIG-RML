@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('type');
             $table->dateTime('generated_at');
             $table->text('content');
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignUuid('user_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

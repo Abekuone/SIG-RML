@@ -10,8 +10,8 @@ return new class extends Migration
     {
         Schema::create('reservations', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('equipment_id')->constrained('equipments')->onDelete('cascade');
+            $table->foreignUuid('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignUuid('equipment_id')->constrained('equipments')->onDelete('cascade');
             $table->dateTime('start_date');
             $table->dateTime('end_date');
             $table->enum('status', ['pending', 'approved', 'rejected', 'completed'])->default('pending');
