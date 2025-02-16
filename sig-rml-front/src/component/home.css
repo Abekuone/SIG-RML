@@ -1,0 +1,19 @@
+.carousel {
+    max-height: 100vh; /* Ajuste selon ton besoin */
+    overflow: hidden;
+}
+
+.carousel .carousel-inner,
+.carousel .carousel-item,
+.carousel img {
+    max-height: 50vh;
+    object-fit: cover; /* Coupe l'image pour éviter la déformation */
+}
+
+
+.carousel-img {
+    height: 50vh; /* Ajuste la hauteur selon tes besoins */
+    width: 100%;
+    object-fit: contain; /* Affiche toute l'image sans la couper */
+    background-color: black; /* Ajoute un fond noir si l'image ne prend pas toute la hauteur */
+}
