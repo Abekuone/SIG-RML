@@ -21,8 +21,6 @@ class CrudService
         return $query;
     }
 
-
-
     public function show($model, $id)
     {
         if (!$model::find($id)) {
@@ -31,6 +29,7 @@ class CrudService
 
         return $model::find($id);
     }
+
     public function get($model, $nature)
     {
         return $model::where('nature',$nature)->first();

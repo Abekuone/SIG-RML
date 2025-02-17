@@ -18,7 +18,7 @@ class Equipment extends Model
         'type',
         'status',
         'laboratory_id',
-        'qunaity',
+        'quantity',
         'image',
         'is_shared',
         'responsable_id'
@@ -37,6 +37,12 @@ class Equipment extends Model
     public function reservations()
     {
         return $this->hasMany(Reservation::class);
+    }
+
+    public function updateEquipmentQuantity($quantity)
+    {
+        $this->quantity = $quantity;
+        $this->save();
     }
 }
 

@@ -35,4 +35,10 @@ class EquipmentController extends Controller
         $equipment = $this->crudService->show(Equipment::class, $id);
         return response()->json($equipment);
     }
+
+    public function updateEquipmentQuantity(Request $request, $id)
+    {
+        $equipment = $this->crudService->update(Equipment::class, $id, $request->all());
+        return response()->json($equipment);
+    }
 }
