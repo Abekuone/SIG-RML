@@ -4,32 +4,34 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 class Equipment extends Model
 {
-    public $incrementing = false;
-    protected $keyType = 'string';
 
-    protected static function booted()
-    {
-        static::creating(function ($model) {
-            $model->id = (string) Str::uuid();
-        });
-    }
+    use HasFactory, HasUuids;
 
     protected $fillable = [
         'name',
         'description',
         'type',
-        'quantity',
         'status',
         'laboratory_id',
+        'qunaity',
+        'image',
         'is_shared',
+        'responsable_id'
     ];
 
     public function laboratory()
     {
-        return $this->belongsTo(Laboratory::class);
+        return $this->belongsTo(Laboratory::class, 'laboratory_id');
+    }
+
+    public function responsableEquipement()
+    {
+        return $this->belongsTo(User::class, 'responsable_id');
     }
 
     public function reservations()

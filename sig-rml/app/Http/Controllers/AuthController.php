@@ -15,7 +15,7 @@ class AuthController extends Controller
     {
         $existingUser = User::where('email', $data['email'])->first();
         if ($existingUser) {
-            return response()->json(['message' => 'User with this email already exists'], 409);
+            return response()->json(['message' => 'un utilisateur avec ces identifiants existe déjà'], 409);
         }
         $user = User::create([
             'name' => $data['name'],

@@ -7,20 +7,11 @@ use Carbon\Carbon;
 
 class AppHelper
 {
-    /**
-     * Create a new class instance.
-     */
-    public function __construct()
-    {
-        //
-    }
 
     public static function getCurrentRole(array $roles): ?string
     {
         $excludedRoles = [
             'manage-account',
-            'manage-account-links',
-            'view-profile'
         ];
 
         foreach ($roles as $role) {

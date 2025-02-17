@@ -4,25 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 class Notification extends Model
 {
-    public $incrementing = false;
-    protected $keyType = 'string';
-
-    protected static function booted()
-    {
-        static::creating(function ($model) {
-            $model->id = (string) Str::uuid();
-        });
-    }
+    use HasFactory, HasUuids;
 
     protected $fillable = [
         'user_id',
-        'reservation_id',
-        'message',
-        'sent_at',
-        'type',
+        'data',
     ];
 
     public function user()
