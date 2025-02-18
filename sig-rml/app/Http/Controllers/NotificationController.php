@@ -24,7 +24,11 @@ class NotificationController extends Controller
     public function store(Request $request)
     {
         if ($request->has('id')) {
-            $notification = $this->crudService->update(Notification::class, $request->all());
+            $existingNotification = Notification::find($request->id);
+            if (!$existingNotification) {
+                return response()->json(['message' => 'Notification non trouvée'], 404);
+            }
+            $notification = $this->crudService->update(Notification::class, $request->id, $request->all());
         } else {
             $notification = $this->crudService->create(Notification::class, $request->all());
         }

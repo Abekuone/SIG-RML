@@ -24,7 +24,11 @@ class ReservationController extends Controller
     public function store(Request $request)
     {
         if ($request->has('id')) {
-            $reservation = $this->crudService->update(Reservation::class, $request->all());
+            $existingReservation = Reservation::find($request->id);
+            if (!$existingReservation) {
+                return response()->json(['message' => 'Réservation non trouvée'], 404);
+            }
+            $reservation = $this->crudService->update(Reservation::class, $request->id, $request->all());
         } else {
             $reservation = $this->crudService->create(Reservation::class, $request->all());
         }
@@ -41,5 +45,47 @@ class ReservationController extends Controller
     {
         $this->crudService->destroy(Reservation::class, $id);
         return response()->json(['message' => 'Reservation deleted successfully']);
+    }
+
+    public function getReservationWithAllRelations($reservationId)
+    {
+        $reservation = Reservation::find($reservationId);
+        $reservation->load('equipement', 'laboratory', 'user');
+        return response()->json($reservation);
+    }
+
+    public function getReservationByLaboratoryId($laboratoryId)
+    {
+        $reservations = Reservation::where('laboratory_id', $laboratoryId)->get();
+        return response()->json($reservations);
+    }
+
+    public function getReservationByUserId($userId)
+    {
+        $reservations = Reservation::where('user_id', $userId)->get();
+        return response()->json($reservations);
+    }
+
+    public function getReservationByEquipementId($equipementId)
+    {
+        $reservations = Reservation::where('equipement_id', $equipementId)->get();
+        return response()->json($reservations);
+    }
+
+    public function getReservationByEquipementIdAndLaboratoryId($equipementId, $laboratoryId)
+    {
+        $reservations = Reservation::where('equipement_id', $equipementId)
+            ->where('laboratory_id', $laboratoryId)
+            ->get();
+        return response()->json($reservations);
+    }
+
+    public function getReservationByEquipementIdAndLaboratoryIdAndUserId($equipementId, $laboratoryId, $userId)
+    {
+        $reservations = Reservation::where('equipement_id', $equipementId)
+            ->where('laboratory_id', $laboratoryId)
+            ->where('user_id', $userId)
+            ->get();
+        return response()->json($reservations);
     }
 }

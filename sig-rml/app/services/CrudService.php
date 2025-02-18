@@ -21,6 +21,15 @@ class CrudService
         return $query;
     }
 
+    public function create($model, array $data)
+    {
+        if (array_key_exists('password', $data) && $data['password'] !== null) {
+            $data['password'] = Hash::make($data['password']);
+        }
+
+        return $model::create($data);
+    }
+
     public function show($model, $id)
     {
         if (!$model::find($id)) {

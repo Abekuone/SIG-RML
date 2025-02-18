@@ -24,7 +24,11 @@ class ReportController extends Controller
     public function store(Request $request)
     {
         if ($request->has('id')) {
-            $report = $this->crudService->update(Report::class, $request->all());
+            $existingReport = Report::find($request->id);
+            if (!$existingReport) {
+                return response()->json(['message' => 'Rapport non trouvé'], 404);
+            }
+            $report = $this->crudService->update(Report::class, $request->id, $request->all());
         } else {
             $report = $this->crudService->create(Report::class, $request->all());
         }
@@ -42,4 +46,12 @@ class ReportController extends Controller
         $this->crudService->destroy(Report::class, $id);
         return response()->json(['message' => 'Report deleted successfully']);
     }
+
+    public function getReportWithAllRelations($reportId)
+    {
+        $report = Report::find($reportId);
+        $report->load('equipement', 'laboratory', 'user');
+        return response()->json($report);
+    }
+
 }

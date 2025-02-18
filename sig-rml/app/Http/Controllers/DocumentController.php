@@ -183,4 +183,24 @@ class DocumentController extends Controller
         }
     }
 
+    public function getDocumentsByDocumentableId($documentableId)
+    {
+        $documents = Document::where('documentable_id', $documentableId)->get();
+        return response()->json($documents);
+    }
+
+    public function getDocumentByDocumentableIdAndDocumentTypeId($documentableId, $documentTypeId)
+    {
+        $document = Document::where('documentable_id', $documentableId)
+            ->where('type_document_id', $documentTypeId)
+            ->first();
+        return response()->json($document);
+    }
+
+    public function getDocumentByReservationId($reservationId)
+    {
+        $documents = Document::where('documentable_id', $reservationId)
+            ->where('documentable_type', Reservation::class)
+            ->get();
+    }
 }

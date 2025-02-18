@@ -22,7 +22,11 @@ class LaboratoryController extends Controller
     public function store(Request $request)
     {
         if ($request->has('id')) {
-            $laboratory = $this->crudService->update(Laboratory::class, $request->all());
+            $existingLaboratory = Laboratory::find($request->id);
+            if (!$existingLaboratory) {
+                return response()->json(['message' => 'Laboratoire non trouvé'], 404);
+            }
+            $laboratory = $this->crudService->update(Laboratory::class, $request->id, $request->all());
         } else {
             $laboratory = $this->crudService->create(Laboratory::class, $request->all());
         }
@@ -38,6 +42,27 @@ class LaboratoryController extends Controller
     public function destroy($id)
     {
         $laboratory = $this->crudService->destroy(Laboratory::class, $id);
+        return response()->json($laboratory);
+    }
+
+    public function getLaboratoryWithAllRelations($laboratoryId)
+    {
+        $laboratory = Laboratory::find($laboratoryId);
+        $laboratory->load('equipements', 'categoryEquipements');
+        return response()->json($laboratory);
+    }
+
+    public function getLaboratoryWithEquipements($laboratoryId)
+    {
+        $laboratory = Laboratory::find($laboratoryId);
+        $laboratory->load('equipements');
+        return response()->json($laboratory);
+    }
+
+    public function getLaboratoryWithCategoryEquipements($laboratoryId)
+    {
+        $laboratory = Laboratory::find($laboratoryId);
+        $laboratory->load('categoryEquipements');
         return response()->json($laboratory);
     }
 

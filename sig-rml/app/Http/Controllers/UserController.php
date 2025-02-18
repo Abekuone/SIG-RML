@@ -22,7 +22,11 @@ class UserController extends Controller
     public function store(Request $request)
     {
         if ($request->has('id')) {
-            $user = $this->crudService->update(User::class, $request->all());
+            $existingUser = User::find($request->id);
+            if (!$existingUser) {
+                return response()->json(['message' => 'Utilisateur non trouvé'], 404);
+            }
+            $user = $this->crudService->update(User::class, $request->id, $request->all());
         } else {
             $user = $this->crudService->create(User::class, $request->all());
         }
@@ -39,6 +43,34 @@ class UserController extends Controller
     {
         $this->crudService->destroy(User::class, $id);
         return response()->json(['message' => 'User deleted successfully']);
+    }
+
+    public function getUserWithAllRelations($userId)
+    {
+        $user = User::find($userId);
+        $user->load('reservations', 'reports', 'notifications');
+        return response()->json($user);
+    }
+
+    public function getUserWithReservations($userId)
+    {
+        $user = User::find($userId);
+        $user->load('reservations');
+        return response()->json($user);
+    }
+
+    public function getUserWithReports($userId)
+    {
+        $user = User::find($userId);
+        $user->load('reports');
+        return response()->json($user);
+    }
+
+    public function getUserWithNotifications($userId)
+    {
+        $user = User::find($userId);
+        $user->load('notifications');
+        return response()->json($user);
     }
 
 }
