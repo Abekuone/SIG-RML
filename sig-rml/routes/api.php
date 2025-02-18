@@ -12,6 +12,9 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\ActionLogController;
 
 //Authentification avec Sanctum
 Route::controller(AuthController::class)->group(function () {
@@ -60,14 +63,17 @@ Route::middleware(['verify-keycloak-token'])->get('/user', function (Request $re
 // Route::post('logout', [KeycloakController::class, 'logout'])->name('logout')->middleware('log.action:Logout,User logged out');
 
 //Route pour les ressources
-Route::middleware('auth:keycloak')->group(function () {
-    Route::apiResource('laboratories', LaboratoryController::class)->middleware('log.action:Laboratory,Laboratory created');
-    Route::apiResource('equipments', EquipmentController::class)->middleware('log.action:Equipment,Equipment created');
-    Route::apiResource('reservations', ReservationController::class)->middleware('log.action:Reservation,Reservation created');
-    Route::apiResource('notifications', NotificationController::class)->middleware('log.action:Notification,Notification created');
-    Route::apiResource('reports', ReportController::class)->middleware('log.action:Report,Report created');
-});
+// Route::middleware('auth:keycloak')->group(function () {
+// });
 
+Route::apiResource('laboratories', LaboratoryController::class)->middleware('log.action:Laboratory,Action sur le laboratoire');
+Route::apiResource('equipments', EquipmentController::class)->middleware('log.action:Equipment,Action sur l\'équipement');
+Route::apiResource('reservations', ReservationController::class)->middleware('log.action:Reservation,Action sur la réservation');
+Route::apiResource('notifications', NotificationController::class)->middleware('log.action:Notification,Action sur la notification');
+Route::apiResource('reports', ReportController::class)->middleware('log.action:Report,Action sur le rapport');
+Route::apiResource('users', UserController::class)->middleware('log.action:User,Action sur l\'utilisateur');
+Route::apiResource('documents', DocumentController::class)->middleware('log.action:Document,Action sur le document');
+Route::apiResource('action-logs', ActionLogController::class)->middleware('log.action:Action Log,Action sur le journal des actions');
 
 
 // Route::get('auth/redirect', function () {

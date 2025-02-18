@@ -4,13 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Equipment;
+use App\services\CrudService;
+
 class EquipmentController extends Controller
 {
-    protected $equipmentService;
+    protected $crudService;
 
-    public function __construct(EquipmentService $equipmentService)
+    public function __construct(CrudService $crudService)
     {
-        $this->equipmentService = $equipmentService;
+        $this->crudService = $crudService;
     }
 
     public function index()

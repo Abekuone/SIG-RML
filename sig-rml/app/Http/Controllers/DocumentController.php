@@ -3,19 +3,40 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\services\CrudService;
+use App\Models\Document;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class DocumentController extends Controller
 {
     protected $crudService;
-    protected $mailService;
 
     public function __construct(
         CrudService $crudService,
-        MailService $mailService
     )
     {
         $this->crudService = $crudService;
-        $this->mailService = $mailService;
+    }
+
+
+    public function index()
+    {
+        $documents = $this->crudService->index(Document::class);
+        return response()->json($documents);
+    }
+
+    public function show($id)
+    {
+        $document = $this->crudService->show(Document::class, $id);
+        return response()->json($document);
+    }
+
+    public function destroy($id)
+    {
+        $this->crudService->destroy(Document::class, $id);
+        return response()->json(['message' => 'Document supprimé avec succès']);
     }
 
     public function store(Request $request)
