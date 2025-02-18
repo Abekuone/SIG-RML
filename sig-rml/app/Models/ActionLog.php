@@ -10,6 +10,8 @@ class ActionLog extends Model
 {
     use HasFactory, HasUuids;
 
+    protected $table = 'action_logs';
+
     protected $fillable = [
         'user_id',
         'action',

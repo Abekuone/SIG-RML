@@ -12,9 +12,11 @@ class Report extends Model
 {
     use HasFactory, HasUuids;
 
+    protected $table = 'reports';
+
     protected $fillable = [
         'type',
-        'comment',
+        'content',
         'reservation_id',
         'generate_by'
     ];

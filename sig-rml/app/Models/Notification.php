@@ -12,6 +12,8 @@ class Notification extends Model
 {
     use HasFactory, HasUuids;
 
+    protected $table = 'notifications';
+
     protected $fillable = [
         'user_id',
         'data',

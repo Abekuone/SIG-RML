@@ -11,28 +11,19 @@ use Illuminate\Support\Facades\Auth;
 class KeycloakController extends Controller
 {
     // Redirection vers Keycloak
-    public function redirectToProvider()
+    public function redirectToKeycloak()
     {
         return Socialite::driver('keycloak')->redirect();
     }
 
     // Callback après authentification
-    public function handleProviderCallback()
+    public function handleKeycloakCallback()
     {
         $user = Socialite::driver('keycloak')->user();
 
-        // Recherchez ou créez l'utilisateur en base
-        $authUser = User::updateOrCreate([
-            'email' => $user->getEmail(),
-        ], [
-            'name' => $user->getName(),
-            'password' => bcrypt(str()->random(32)), // Générer un mot de passe sécurisé
-        ]);
+        $existingUser = User::where('email', $user->email)->first();
 
-        // Connecter l'utilisateur
-        Auth::login($authUser);
-
-        return redirect('/home'); // Rediriger après connexion
+        return redirect()->intended('/welcome');
     }
 
     // Déconnexion de Laravel et de Keycloak

@@ -10,8 +10,10 @@ class CategoryEquipment extends Model
 {
     use HasFactory, HasUuids;
 
+    protected $table = 'category_equipments';
+
     protected $fillable = [
-        'libelle',
+        'name',
         'description'
     ];
 

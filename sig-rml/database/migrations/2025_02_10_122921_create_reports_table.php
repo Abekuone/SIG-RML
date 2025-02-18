@@ -13,7 +13,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('type');
             $table->text('content');
-            $table->foreignUuid('reservation_id')->constrained('users')->onDelete('cascade');
+            $table->foreignUuid('reservation_id')->constrained('reservations')->onDelete('cascade');
             $table->foreignUuid('generate_by')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });

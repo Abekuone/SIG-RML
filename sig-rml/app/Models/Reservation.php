@@ -13,6 +13,8 @@ class Reservation extends Model
 {
     use HasFactory, HasUuids;
 
+    protected $table = 'reservations';
+
     protected $fillable = [
         'user_id',
         'equipment_id',

@@ -13,8 +13,10 @@ class Laboratory extends Model
 {
     use HasFactory, HasUuids;
 
+    protected $table = 'laboratories';
+
     protected $fillable = [
-        'libelle',
+        'name',
         'description',
         'manager_id',
     ];

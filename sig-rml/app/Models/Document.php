@@ -11,6 +11,8 @@ class Document extends Model
 {
     use HasFactory, HasUuids;
 
+    protected $table = 'documents';
+
     protected $fillable = [
         'file_name',
         'file_path',

@@ -12,9 +12,11 @@ class Permission extends Model
 {
     use HasFactory, HasUuids;
 
+    protected $table = 'permissions';
+
     protected $fillable = [
-        'libelle_permission',
-        'code_permission'
+        'name',
+        'code',
     ];
 
     public function roles(): BelongsToMany

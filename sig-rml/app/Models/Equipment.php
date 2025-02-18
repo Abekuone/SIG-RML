@@ -11,6 +11,8 @@ class Equipment extends Model
 {
     use HasFactory, HasUuids;
 
+    protected $table = 'equipments';
+
     protected $fillable = [
         'name',
         'description',
@@ -19,7 +21,7 @@ class Equipment extends Model
         'quality',
         'status',
         'proprietaire_id',
-        'category_equipement_id',
+        'category_equipment_id',
         'laboratory_id',
         'availability',
         'image',
