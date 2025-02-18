@@ -3,24 +3,22 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Notification extends Model
+
+class Permission extends Model
 {
     use HasFactory, HasUuids;
 
     protected $fillable = [
-        'user_id',
-        'data',
+        'libelle_permission',
+        'code_permission'
     ];
 
-    public function user(): BelongsTo
+    public function roles(): BelongsToMany
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsToMany(Role::class, 'role_permissions');
     }
 }
-
-

@@ -3,24 +3,20 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Notification extends Model
+class CategoryEquipment extends Model
 {
     use HasFactory, HasUuids;
 
     protected $fillable = [
-        'user_id',
-        'data',
+        'libelle',
+        'description'
     ];
 
-    public function user(): BelongsTo
+    public function equipements(): HasMany
     {
-        return $this->belongsTo(User::class);
+        return $this->hasMany(Equipement::class);
     }
 }
-
-

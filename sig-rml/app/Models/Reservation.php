@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Reservation extends Model
 {
@@ -20,18 +22,23 @@ class Reservation extends Model
         'comment',
     ];
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function equipment()
-    {
-        return $this->belongsTo(Equipment::class);
-    }
-
-    public function notifications()
+    public function notifications(): HasMany
     {
         return $this->hasMany(Notification::class);
+    }
+
+    public function equipement(): BelongsTo
+    {
+        return $this->belongsTo(Equipement::class);
+    }
+
+    public function rapport(): HasOne
+    {
+        return $this->hasOne(Rapport::class);
     }
 }

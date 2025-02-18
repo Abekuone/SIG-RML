@@ -6,25 +6,27 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Laboratory extends Model
 {
     use HasFactory, HasUuids;
 
     protected $fillable = [
-        'name',
+        'libelle',
         'description',
         'manager_id',
     ];
 
-    public function manager()
+    public function manager(): BelongsTo
     {
         return $this->belongsTo(User::class, 'manager_id');
     }
 
-    public function equipments()
+    public function equipements(): HasMany
     {
-        return $this->hasMany(Equipment::class);
+        return $this->hasMany(Equipement::class);
     }
 }
 

@@ -9,34 +9,46 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 class Equipment extends Model
 {
-
     use HasFactory, HasUuids;
 
     protected $fillable = [
-        'name',
+        'libelle',
+        'proprietaire_id',
+        'category_equipement_id',
+        'laboratory_id',
         'description',
         'type',
         'status',
-        'laboratory_id',
+        'availability',
         'quantity',
+        'quality',
         'image',
-        'is_shared',
-        'responsable_id'
+        'is_shared'
     ];
 
-    public function laboratory()
+    public function proprietaire(): BelongsTo
     {
-        return $this->belongsTo(Laboratory::class, 'laboratory_id');
+        return $this->belongsTo(User::class, 'proprietaire_id');
     }
 
-    public function responsableEquipement()
+    public function categoryEquipement(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'responsable_id');
+        return $this->belongsTo(CategoryEquipement::class);
     }
 
-    public function reservations()
+    public function laboratoire(): BelongsTo
+    {
+        return $this->belongsTo(Laboratoire::class);
+    }
+
+    public function reservations(): HasMany
     {
         return $this->hasMany(Reservation::class);
+    }
+
+    public function documents(): MorphMany
+    {
+        return $this->morphMany(Document::class, 'documentable');
     }
 
     public function updateEquipmentQuantity($quantity)
