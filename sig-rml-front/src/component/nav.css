@@ -1,178 +1,145 @@
-*
-{
-    margin: 0;
-    padding: 0;
-    font-family: sans-serif;
-    box-sizing: border-box;
-}
-
-
-.header
-{
+/* Amélioration du header */
+.header .last_header {
     width: 100%;
-}
-.header .top_header
-{
-    max-width: 100%;
+    position: fixed;
+    top: 0;
+    margin-bottom: 150px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 10px 20px;
     display: flex;
-    padding: 10px 10px;
-    background: #f6f7f8;
-}
-.header .top_header .icon
-{
-    margin-left: 20px;
-    color: #ababab;
-    font-size: 19px;
-}
-.header .top_header .info p
-{
-    margin-left: 10px;
-    color: #8a8a8a;
-}
-.header .mid_header {
-    display: flex;
-    padding: 20px;
-    width: 100%;
-    justify-content: center;
-    box-sizing: border-box; /* Empêche le padding d'augmenter la largeur */
-}
-
-.header .mid_header .logo img
-{
-    cursor: pointer;
-    object-fit: cover;
-    width: 80px;
-    height: 60px;
-}
-.header .mid_header .search_box{
-    width: 50%;
-    display: flex;
-
-}
-.header .mid_header .search_box input
-{
-    padding: 10px 10px;
-    outline: none;
-    background: none;
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-    width: 100%;
-    border: none;
-    background: #f6f7f8;
-}
-.header .mid_header .search_box button
-{
-    padding: 10px 10px;
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
-    border: none;
-    outline: none;
-    width: 50px;
-    background: #cd1e76;
-    color: #fff;
-    cursor: pointer;
-    margin-right: 30px;
-    transition: 0.5s;
-    font-weight: 600;
-}
-.header .mid_header .search_box button:hover
-{
-    background: #fed700;
-    color: #cd1e76;
-}
-.header .mid_header .user
-{
-    display: flex;
-    margin-right: 30px;
-}
-.header .mid_header .user .icon
-{
-    margin-right: 10px;
-}
-.header .mid_header .user .btn button
-{
-    border: none;
-    outline: none;
-    font-size: 16px;
-    background: none;
-    cursor: pointer;
-}
-.header .last_header
-{
-    width: 100%;
-    
-    padding: 5px 10px;
-    display: flex;
-    background: #232323;
     justify-content: space-between;
-    box-sizing: border-box;
+    align-items: center;
+    transition: background 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
 }
-.header .last_header .user_profile
-{
-    display: flex;
-    margin-top: 10px;
-    padding: 0px 10px;
-    height: 30px;
+
+.header .last_header.scrolled {
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    margin-bottom: 150px;
+    
 }
-.header .last_header .user_profile .icon
-{
-    padding: 0px 10px;
-    background: #fff;
-    height: 30px;
-    border-radius: 10px;
-}
-.header .last_header .user_profile .info
-{
-    margin-left: 10px;
-}
-.header .last_header .user_profile .info h2
-{
-    color: #fff;
-    font-size: 18px;
-}
-.header .last_header .user_profile .info p
-{
-    color: #ababab;
-    font-size: 14px;
-}
-.header .last_header .nav-head
-{
-    margin-top: 15px;
-}
+
 .header .last_header .nav-head ul {
     display: flex;
-    flex-wrap: wrap; /* Permet aux éléments de passer à la ligne si nécessaire */
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
-.header .last_header .nav-head ul li
-{
-    list-style: none;
-    padding: 0px 20px;
+.header .last_header .nav-head ul li {
+    padding: 10px 20px;
 }
-.header .last_header .nav-head ul li .link
-{
-    margin-right: 20px;
+
+/* Effet hover */
+.header .last_header .nav-head ul li .link {
     text-decoration: none;
-    color: #fff;
+    color: #000;
+    font-size: 16px;
     font-weight: 600;
-    transition: 0.5s;
+    transition: color 0.3s ease, border-bottom 0.3s ease;
+    position: relative;
 }
-.header .last_header .nav-head ul li .link:hover
-{
+
+
+.header .last_header.scrolled .nav-head ul li .link{
+    color: #000;
+}
+
+.header .last_header .user_profile .info{
+    color: #000;
+}
+
+.header .last_header .btn-connexion{
+    display: flex;
+    color: #000;
+    padding: 5px 15px;
+}
+
+.header .last_header .btn-connexion .info .link{
+    text-decoration: none;
+    color: #000;
+    font-size: 20px;
+    font-weight: 600;
+    transition: color 0.3s ease, border-bottom 0.3s ease;
+    position: relative;
+}
+
+.header .last_header .nav-head ul li .link:hover {
     color: #fed700;
 }
-.header .last_header .offer
-{
-    margin-right: 20px;
-    padding: 0px 20px;
-    
-    border-radius: 10px;
+
+/* Ajout d'un soulignement animé au hover */
+.header .last_header .nav-head ul li .link::after {
+    content: '';
+    display: block;
+    height: 2px;
+    width: 0;
+    background: #fed700;
+    transition: width 0.3s ease-in-out;
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
 }
-.header .last_header .offer p
-{
-    margin-top: 5px;
-    text-transform: uppercase;
-    color: #232323;
-    font-weight: 600;
-    font-size: 14px;
+
+.header .last_header .nav-head ul li .link:hover::after {
+    width: 100%;
+}
+
+/* Onglet actif */
+.header .last_header .nav-head ul li .link.active {
+    color: #fed700;
+    font-weight: bold;
+}
+
+/* Ajout d'un indicateur sous l'onglet actif */
+.header .last_header .nav-head ul li .link.active::after {
+    width: 100%;
+}
+
+/* Amélioration du menu burger */
+.burger-menu {
+    display: none;
+    cursor: pointer;
+    font-size: 24px;
+    color: white;
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+    .burger-menu {
+        display: block;
+    }
+
+    .nav-head {
+        display: none;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        background: #232323;
+        text-align: left;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .nav-head.active {
+        display: block;
+    }
+
+    .nav-head ul {
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    .nav-head ul li {
+        padding: 15px 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .nav-head ul li .link {
+        color: white;
+        font-size: 18px;
+    }
 }

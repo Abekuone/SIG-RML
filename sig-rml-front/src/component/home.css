@@ -1,3 +1,21 @@
+
+* {
+    box-sizing: border-box; /* Empêche les marges d'agrandir les éléments */
+    margin: 0;
+    padding: 0;
+}
+
+
+html, body {
+    overflow-x: hidden;
+    max-width: 100%;
+     background-color: #f9f9fa;
+     margin-top: 50px;
+}
+
+
+
+
 .carousel {
     max-height: 100vh; /* Ajuste selon ton besoin */
     overflow: hidden;
@@ -12,8 +30,135 @@
 
 
 .carousel-img {
+    
     height: 50vh; /* Ajuste la hauteur selon tes besoins */
     width: 100%;
-    object-fit: contain; /* Affiche toute l'image sans la couper */
-    background-color: black; /* Ajoute un fond noir si l'image ne prend pas toute la hauteur */
+    object-fit: cover; /* Affiche toute l'image sans la couper */
+    background-color: #27287598; /* Ajoute un fond noir si l'image ne prend pas toute la hauteur */
 }
+
+.mid_header {
+    display: flex;
+    padding: 20px;
+    width: 100%;
+    justify-content: center;
+    box-sizing: border-box; /* Empêche le padding d'augmenter la largeur */
+}
+
+.mid_header .search_box{
+    width: 75%;
+    display: flex;
+
+}
+.mid_header .search_box input
+{
+    padding: 10px 10px;
+    outline: none;
+    background: none;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    width: 100%;
+    border: none;
+    background: #f2f2f2;
+}
+.mid_header .search_box button
+{
+    padding: 10px 10px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border: none;
+    outline: none;
+    width: 50px;
+    background: #1ecd76;
+    color: #fff;
+    cursor: pointer;
+    margin-right: 30px;
+    transition: 0.5s;
+    font-weight: 600;
+}
+.mid_header .search_box button:hover
+{
+    background: #fed700;
+    color: #cd1e76;
+}
+
+
+.card-box{
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2) ;
+}
+
+
+
+
+
+.card-opacity {
+    position: relative; /* Nécessaire pour positionner la superposition */
+}
+
+.overlay {
+    position: absolute; /* Positionnement absolu par rapport à la carte */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(30, 136, 229, 0.5); /* Couleur bleuâtre avec opacité */
+    z-index: 1; /* Assurez-vous que la superposition est au-dessus de l'image */
+}
+
+.card-img-overlay {
+    position: relative; /* Pour que le texte soit au-dessus de la superposition */
+    z-index: 2; /* Assurez-vous que le texte est au-dessus de la superposition */
+}
+
+
+
+@media (max-width: 768px) {
+   
+
+    .mid_header {
+        display: flex;
+        padding: 20px;
+        width: 100%;
+        justify-content: center;
+        box-sizing: border-box; /* Empêche le padding d'augmenter la largeur */
+    }
+    
+    .mid_header .search_box{
+        width: 100%;
+        display: flex;
+    
+    }
+    .mid_header .search_box input
+    {
+        padding: 5px 5px;
+        outline: none;
+        background: none;
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+        width: 100%;
+        border: none;
+        background: #f6f7f8;
+    }
+    .mid_header .search_box button
+    {
+        padding: 5px 5px;
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+        border: none;
+        outline: none;
+        width: 40px;
+        background: #cd1e76;
+        color: #fff;
+        cursor: pointer;
+        margin-right: 30px;
+        transition: 0.5s;
+        font-weight: 600;
+    }
+
+    .carousel .carousel-inner,
+    .carousel .carousel-item,
+    .carousel img {
+        max-height: 250px; /* Réduire la hauteur sur mobile */
+    }
+}
+

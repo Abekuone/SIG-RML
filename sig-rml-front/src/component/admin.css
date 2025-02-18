@@ -1,0 +1,90 @@
+.card-box {
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Onglets Bootstrap */
+.nav-tabs .nav-link {
+    font-size: 18px;
+    font-weight: bold;
+    color: #232323;
+    transition: 0.3s;
+    display: flex;
+    margin: 0px 15px;
+    
+    
+}
+.nav-tabs .nav-link:hover, .nav-tabs .nav-link.active {
+    color: #fe3b00;
+    border-bottom: 2px solid #fe3b00;
+}
+.list-unstyled{
+    padding-top: 15px;
+}
+/* Liens */
+.list-unstyled li {
+    padding: 5px 10px;
+   
+}
+.list-unstyled li .link {
+    text-decoration: none;
+    font-size: 17px;
+    font-weight: 500;
+    color: #232323;
+    transition: 0.5s;
+}
+.list-unstyled li .link:hover {
+    color: #fe3b00;
+}
+
+
+
+.accordion-body ul {
+    display: flex;
+    justify-content: center; /* Centrage des liens */
+    gap: 20px; /* Espacement entre les éléments */
+    padding: 0;
+}
+
+.accordion-body ul li {
+    display: inline-block;
+    padding: 10px 15px;
+}
+
+.accordion-body ul li .link {
+    text-decoration: none;
+    color: #333;
+    font-weight: 600;
+    font-size: 18px;
+    letter-spacing: 1px;
+    font-family: 'Poppins', sans-serif;
+    transition: all 0.3s ease-in-out;
+    position: relative;
+}
+
+.accordion-body ul li .link:hover {
+    color: #ff6600; /* Couleur accrocheuse */
+    text-decoration: underline;
+    transform: scale(1.1); /* Effet zoom léger */
+}
+
+/* Ajout d'une ligne animée sous le texte */
+.accordion-body ul li .link::after {
+    content: '';
+    display: block;
+    height: 2px;
+    width: 0;
+    background: #ff6600;
+    transition: width 0.3s ease-in-out;
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.accordion-body ul li .link:hover::after {
+    width: 100%;
+}
+
+
+
+

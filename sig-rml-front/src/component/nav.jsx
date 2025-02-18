@@ -1,79 +1,96 @@
 import * as React from "react";
-import { MdLocalShipping } from 'react-icons/md'
-import { CiSearch } from "react-icons/ci";
-import {Link} from 'react-router-dom';
-import './nav.css'
-import { FiLogIn } from "react-icons/fi";
-import { CiUser } from "react-icons/ci";
+import { useState, useEffect } from "react";
+//import { FiLogIn } from "react-icons/fi";
+import { Link, useLocation } from "react-router-dom";
+import { FaBars, FaTimes } from "react-icons/fa";
+import "./nav.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min";
+import { FaUser } from "react-icons/fa";
 
+const Nav = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
 
-const Nav=()=> {
-    return(
-        <>
-            <div className="header">
-                <div className="top_header">
-                    <div className="icon">
-                        <MdLocalShipping />
-                    </div>
-                    <div className="info">
-                        <p>Université Joseph KI-ZERBO. Equipements des laboratoires de recherches</p>
-                    </div>
-                </div>
-                <div className="mid_header">
-                    <div className="logo">
-                        
-                    </div>
-                    <div className="search_box">
-                        <input type="text" value="" defaultValue="Texte initial" placeholder="search" />
-                        <button><CiSearch /></button>
-                    </div>
-                    {/*<div className="user">
-                        <div className="icon">
-                            <FiLogIn />
-                        </div>
-                        <div className="btn">
-                            <button>Login</button>
-                        </div>
-                    </div>*/}
-                    
-                </div>
-                <div className='last_header'>
-                    <div className='user_profile'>
-                        
-                        <div className='icon'>
-                            <CiUser />
-                        </div>
-                        <div className='info'>
-                            <h2>Logo</h2>
-                           
-                        </div>  
-                    </div>
-                    <div className='nav-head'>
-                        <ul>
-                        <li><Link to='/' className='link'>Accueil</Link></li>
-                        <li><Link to='/equipements' className='link'>Equipements</Link></li>
-                        <li><Link to='' className='link'>Historique</Link></li>
-                        <li><Link to='' className='link'>A Propos</Link></li>
-                        <li><Link to='' className='link'>Contact</Link></li>
-                        </ul>
-                    </div>
-                    <div className='offer'>
-                        <div className='user_profile'>
-                            
-                        <div className="icon">
-                            <FiLogIn />
-                        </div>
-                            <div className='info'>
-                                <p>Connexion</p>
-                            </div>  
-                        </div>
-                    </div>
-                </div>
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  return (
+    <>
+      <div className="header">
+        
+       
+
+        {/* Barre de navigation */}
+        <div className={`last_header ${scrolled ? "scrolled" : ""}`}>
+          <div className="user_profile">
+            <div className="info">
+              <h2>SIG-RML</h2>
             </div>
-        </>
-    )
-}
+          </div>
 
+          {/* Icône du menu burger */}
+          <div className="burger-menu" onClick={toggleMenu}>
+            {isOpen ? <FaTimes className="burger-icon" /> : <FaBars className="burger-icon" />}
+          </div>
 
+          {/* Menu de navigation */}
+          <div className={`nav-head ${isOpen ? "active" : ""}`}>
+            <ul>
+              <li>
+                <Link to="/" className={`link ${location.pathname === "/" ? "active" : ""}`} onClick={toggleMenu}>Accueil</Link>
+              </li>
+              <li>
+                <Link to="/equipements" className={`link ${location.pathname === "/equipements" ? "active" : ""}`} onClick={toggleMenu}>Equipements</Link>
+              </li>
+              <li>
+                <Link to="/historique" className={`link ${location.pathname === "/historique" ? "active" : ""}`} onClick={toggleMenu}>Mes réservations</Link>
+              </li>
+              <li>
+                <Link to="/apropos" className={`link ${location.pathname === "/apropos" ? "active" : ""}`} onClick={toggleMenu}>À Propos</Link>
+              </li>
+              <li>
+                <Link to="/contact" className={`link ${location.pathname === "/contact" ? "active" : ""}`} onClick={toggleMenu}>Contact</Link>
+              </li>
+              <li>
+                <Link to="/administration" className={`link ${location.pathname === "/administration" ? "active" : ""}`} onClick={toggleMenu}>Administration</Link>
+              </li>
+            </ul>
+          </div>
+
+         
+            <div className="btn-connexion">
+              
+              <div className="info">
+               
+              <div class="dropdown">
+                  <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    <FaUser />
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li><button class="dropdown-item" href="#">Profile</button></li>
+                    <li><button class="dropdown-item" href="#">Modifier le password</button></li>
+                    <li><button class="dropdown-item" href="#">Deconnexion</button></li>
+                  </ul>
+                </div>
+               
+              </div>
+            </div>
+        
+        </div>
+      </div>
+    </>
+  );
+};
 
 export default Nav;

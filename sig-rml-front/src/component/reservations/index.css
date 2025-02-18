@@ -1,0 +1,28 @@
+/* Augmenter la taille de la police dans DataTable */
+.dataTables_wrapper {
+    font-size: 18px !important;
+}
+
+/* Augmenter la taille de la police pour les cellules du tableau */
+.dataTables_wrapper .rdt_TableCell{
+    font-size:25px;
+  } 
+
+/* Ajuster la taille des en-têtes */
+.dataTables_wrapper .rdt_TableHeader {
+    font-size: 20px !important;
+    font-weight: bold;
+}
+
+
+.rdt_Table {
+    font-size: 18px !important;
+}
+
+
+input .form-control {
+    font-size: 16px;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}

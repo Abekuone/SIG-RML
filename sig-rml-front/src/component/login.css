@@ -1,0 +1,69 @@
+/* Style du conteneur principal */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    
+  }
+  
+  /* Carte du formulaire */
+  .login-card {
+    width: 350px;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Style des champs d'entrée */
+  .input-group {
+    display: flex;
+    align-items: center;
+    background: #f1f1f1;
+    border-radius: 5px;
+    padding: 8px;
+    margin: 10px 0;
+  }
+  
+  .input-group .icon {
+    margin-right: 10px;
+    color: #007bff;
+  }
+  
+  .input-group input {
+    border: none;
+    background: transparent;
+    outline: none;
+    flex: 1;
+    padding: 5px;
+    font-size: 16px;
+  }
+  
+  /* Bouton de connexion */
+  .btn-login {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background: #007bff;
+    color: white;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .btn-login:hover {
+    background: #0056b3;
+  }
+  
+  /* Lien mot de passe oublié */
+  .forgot-link {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .forgot-link:hover {
+    text-decoration: underline;
+  }
+  

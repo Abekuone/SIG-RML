@@ -1,0 +1,44 @@
+
+.dataTable-container {
+    font-size: 5rem; 
+    background-color: #fff; 
+    border-radius: 10px; 
+    padding: 15px;
+   
+}
+
+
+.dataTable-container .rdt_Table {
+    font-size: 5.1rem; 
+}
+
+
+.dataTable-container .rdt_TableHead {
+    background-color: #007bff; 
+    color: black;
+    font-weight: bold;
+}
+
+/* Améliorer les lignes du tableau */
+.dataTable-container .rdt_TableRow {
+    border-bottom: 1px solid #ddd;
+}
+
+/* Survol des lignes */
+.dataTable-container .rdt_TableRow:hover {
+    background-color: #f8f9fa; /* Gris clair au survol */
+}
+
+/* Style pour la pagination */
+.dataTable-container .rdt_Pagination {
+    font-size: 1rem;
+    padding: 10px;
+}
+
+
+input .form-control {
+    font-size: 16px;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}

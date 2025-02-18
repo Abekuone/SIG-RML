@@ -1,83 +1,75 @@
-import React from 'react'
-
-//import { FaPiggyBank, FaShippingFast, FaHeadphonesAlt, FaWallet} from 'react-icons/fa';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
+import { CiUser } from "react-icons/ci";
+import { HiOutlineUserGroup } from "react-icons/hi2";
+import { FaRegCircle } from "react-icons/fa";
+import "./admin.css";
 
 const Admin = () => {
     return (
-      <>
+        <div className="container position-sticky top-50">
+            <div className="card custom-card border-primary shadow-sm ">
+               
+                <div className="card-body">
+                    
+                    {/* Navigation Tabs */}
+                    <ul className="nav nav-tabs justify-content-center">
+                        <li className="nav-item">
+                            <a className="nav-link active" data-bs-toggle="tab" href="#users">Gestion Utilisateurs</a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" data-bs-toggle="tab" href="#equipments">Gestion Materiels</a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" data-bs-toggle="tab" href="#reservations">Gestions Réservations</a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" data-bs-toggle="tab" href="#stats">Statistiques & Rapports</a>
+                        </li>
+                    </ul>
 
-        <div className="card">
-                    <div className="card-header">Administration</div>
-                    <div className="card-body">
+                    {/* Content Tabs */}
+                    <div className="tab-content">
+                        {/* Utilisateurs */}
+                        <div id="users" className="tab-pane fade show active">
+                            <ul className="list-unstyled text-center d-flex justify-content-center gap-3">
+                                <li><Link to='/utilisateurs' className='link'><CiUser /> Utilisateurs</Link></li>
+                                <li><Link to='/groupes' className='link'><HiOutlineUserGroup /> Groupes</Link></li>
+                                <li><Link to='/droits' className='link'><FaRegCircle /> Droits</Link></li>
+                            </ul>
+                        </div>
 
-                        <div className="accordion accordion-flush" id="accordionPanelsStayOpenExample">
-                            <div className="accordion-item">
-                                <h2 className="accordion-header" id="panelsStayOpen-headingOne">
-                                    <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-                                        Utilisateurs
-                                    </button>
-                                </h2>
-                                <div id="panelsStayOpen-collapseOne" className="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
-                                    <div className="accordion-body">
-                                        <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classNamees that we use to style each element. These classNamees control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="accordion-item">
-                                <h2 className="accordion-header" id="panelsStayOpen-headingTwo">
-                                    <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
-                                        Equipements
-                                    </button>
-                                </h2>
-                                <div id="panelsStayOpen-collapseTwo" className="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
-                                    <div className="accordion-body">
-                                        <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classNamees that we use to style each element. These classNamees control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="accordion-item">
-                                <h2 className="accordion-header" id="panelsStayOpen-headingThree">
-                                <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
-                                    Laboratoires
-                                </button>
-                                </h2>
-                                <div id="panelsStayOpen-collapseThree" className="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
-                                    <div className="accordion-body">
-                                        <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classNamees that we use to style each element. These classNamees control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="accordion-item">
-                                <h2 className="accordion-header" id="panelsStayOpen-headingFour">
-                                    <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="false" aria-controls="panelsStayOpen-collapseFour">
-                                        Reservations
-                                    </button>
-                                </h2>
-                                <div id="panelsStayOpen-collapseFour" className="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingFour">
-                                    <div className="accordion-body">
-                                        <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classNamees that we use to style each element. These classNamees control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="accordion-item">
-                                <h2 className="accordion-header" id="panelsStayOpen-headingFive">
-                                <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFive" aria-expanded="false" aria-controls="panelsStayOpen-collapseFive">
-                                    Statistiques et Rappports
-                                </button>
-                                </h2>
-                                <div id="panelsStayOpen-collapseFive" className="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingFive">
-                                    <div className="accordion-body">
-                                        <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classNamees that we use to style each element. These classNamees control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                                    </div>
-                                </div>
-                            </div>
+                        {/* Équipements */}
+                        <div id="equipments" className="tab-pane fade">
+                            <ul className="list-unstyled text-center d-flex justify-content-center gap-2">
+                                <li><Link to='/equipement' className='link'><FaRegCircle /> Équipements</Link></li>
+                                <li><Link to='/laboratoires' className='link'><FaRegCircle /> Laboratoires</Link></li>
+                            </ul>
+                        </div>
+
+                        {/* Réservations */}
+                        <div id="reservations" className="tab-pane fade">
+                            <ul className="list-unstyled text-center d-flex justify-content-center gap-3">
+                                <li><Link to='/reservations' className='link'><FaRegCircle /> Toutes</Link></li>
+                                <li><Link to='' className='link'><FaRegCircle /> En Cours</Link></li>
+                                <li><Link to='' className='link'><FaRegCircle /> En Attente</Link></li>
+                            </ul>
+                        </div>
+
+                        {/* Statistiques & Rapports */}
+                        <div id="stats" className="tab-pane fade">
+                            <ul className="list-unstyled text-center d-flex justify-content-center gap-2">
+                                <li><Link to='/administration' className='link'><FaRegCircle /> Statistiques</Link></li>
+                                <li><Link to='' className='link'><FaRegCircle /> Rapports</Link></li>
+                            </ul>
                         </div>
                     </div>
-                </div>
 
-        </>
+                </div>
+            </div>
+        </div>
     );
 }
 

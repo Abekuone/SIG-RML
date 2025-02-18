@@ -1,51 +1,85 @@
 import React from 'react'
 import './home.css'
 import './admin'
+import Footer from "./footer";
+import "./footer.css";
 //import { FaPiggyBank, FaShippingFast, FaHeadphonesAlt, FaWallet} from 'react-icons/fa';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
-import Admin from './admin';
+//import Admin from './admin';
+//import { CiSearch } from "react-icons/ci";
+import { useState,useEffect,useCallback,useMemo } from 'react';
 
 
 const Home = () => {
+    //const [searchTerm, setSearchTerm] = useState("");
+    
+
+    const images = useMemo(() => [
+        { src: "images/equip4.jpg", title: "Card 1" },
+        { src: "images/equip2.jpg", title: "Card 2" },
+        { src: "images/equip3.jpg", title: "Card 3" },
+        { src: "images/equip4.jpg", title: "Card 4" },
+        { src: "images/equip1.jpg", title: "Card 5" }
+      ], []);
+
+    //const [startIndex, setStartIndex] = useState(0);
+    const visibleImages = 3; // Nombre d'images affichées
+    const [currentImages, setCurrentImages] = useState(images.slice(0, visibleImages));
+
+    const getNextImage = useCallback((current) => {
+        const lastIndex = images.findIndex((img) => img.src === current[current.length - 1].src);
+        return images[(lastIndex + 1) % images.length];
+      }, [images]);
+    
+      useEffect(() => {
+        const interval = setInterval(() => {
+          setCurrentImages((prevImages) => {
+            // Supprime la première image et ajoute la suivante à la fin
+            const newImages = [...prevImages.slice(1), getNextImage(prevImages)];
+            return newImages;
+          });
+        }, 5000); // Défilement toutes les 2 secondes
+    
+        return () => clearInterval(interval);
+      }, [getNextImage]);
+
+    // Fonction pour récupérer la prochaine image après la dernière affichée
+    
   return (
     <>
 
-        
-        <div className="mx-auto px-3 mb-3 mt-3 col-md-12 col-sm-12 col-lg-12 d-flex flex-wrap">
-            <div className="col-md-3 col-lg-3">
-                <Admin />
-            </div> 
+            
+        <div className=" container mx-auto col-md-12 col-lg-12 col-sm-12 col-md-12 mt-5">
 
-
-            <div className=" mx-auto col-md-8 col-lg-8 col-sm-12">
-                <div className="row row-cols-1 mb-3">
-                    <div className="col">
-                    <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
-                        <div class="carousel-inner h-25">
-                            <div class="carousel-item active" data-bs-interval="10000">
-                            <img src="/images/labequi.jpg" class="d-block w-100 carousel-img" alt="..."></img>
-                            </div>
-                            <div class="carousel-item" data-bs-interval="2000">
-                            <img src="/images/equip2.jpg" class="d-block w-100 carousel-img" alt="..."></img>
-                            </div>
-                            <div class="carousel-item">
-                            <img src="/images/equip3.jpg" class="d-block w-100 carousel-img" alt="..."></img>
-                            </div>
+            <div className=" container mx-auto col-md-12 col-lg-12 col-sm-12 col-md-12 mt-5">
+                {/*<div className="row col-sm-12 col-md-12 col-lg-12 mid_header">
+                        
+                        <div className="search_box">
+                            <input type="text" value={searchTerm} 
+                                onChange={(e) => setSearchTerm(e.target.value)} 
+                                placeholder="Rechercher..." />
+                            <button><CiSearch /></button>
                         </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
+                    </div>*/}
+                <div className="row row-cols-1 mb-3">
+                    <div className="col ">
+
+
+                    <div class="card text-dark position-relative card-opacity">
+                        <img src="/images/labequi.jpg" className="card-img w-100 carousel-img" alt="..." />
+                        <div class="overlay"></div> 
+                        <div class="card-img-overlay">
+                            <h5 class="card-title fs-1 fw-bold">SIG-RML</h5>
+                            <p class="card-text fs-3">Réservations de matériels de laboratoires. This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                        </div>
                     </div>
+                                            
+                        
                     </div>
                 </div>
                 <div className="row row-cols-1 mb-4 mt-3">
-                    <div class="alert alert-primary d-flex align-items-center" role="alert">
+                    <div className="alert alert-primary d-flex align-items-center" role="alert">
                         <svg xmlns="http://www.w3.org/2000/svg" display= "none">
                             <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
                                 <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
@@ -58,8 +92,8 @@ const Home = () => {
                             </symbol>
                         </svg>
 
-                        <div class="alert alert-primary d-flex align-items-center" role="alert">
-                            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"> <use href="#info-fill" /></svg>
+                        <div className="alert alert-primary d-flex align-items-center" role="alert">
+                            <svg className="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"> <use href="#info-fill" /></svg>
                             <div>
                             Les equipements de laboratoires les plus utilisés dans les laboratoires .This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
                             </div>
@@ -69,47 +103,72 @@ const Home = () => {
                 </div>
 
 
-                <div className="row row-cols-1 row-cols-md-3 g-4">
-                    <div className="col">
-                        <div className="card h-100">
-                            <img src="images/equip4.jpg" className="card-img-top" alt="..."></img>
-                        <div className="card-body">
-                            <h5 className="card-title">Card title</h5>
-                            <p className="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                        </div>
-                        </div>
-                    </div>
-                    <div className="col">
-                        <div className="card h-100">
-                            <img src="images/equip2.jpg" className="card-img-top" alt="..."></img>
-                        <div className="card-body">
-                            <h5 className="card-title">Card title</h5>
-                            <p className="card-text">This is a short card.</p>
-                        </div>
-                        </div>
-                    </div>
-                    <div className="col">
-                        <div className="card h-100">
-                            <img src="images/equip3.jpg" className="card-img-top" alt="..."></img>
-                        <div className="card-body">
-                            <h5 className="card-title">Card title</h5>
-                            <p className="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.</p>
-                        </div>
-                        </div>
-                    </div>
-                    <div className="col">
-                        <div className="card h-100">
-                            <img src="images/equip4.jpg" className="card-img-top" alt="..."></img>
-                        <div className="card-body">
-                            <h5 className="card-title">Card title</h5>
-                            <p className="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                        </div>
-                        </div>
+                <div className="  d-flex justify-content-center align-items-center">
+                    {/* Carousel d'images défilant */}
+                    <div className="row mx-auto d-flex overflow-hidden justify-content-center" style={{ width: "100%" }}>
+                    {currentImages.map((item, index) => (
+                        <img
+                        key={index}
+                        src={item.src}
+                        alt={item.title}
+                        className="img-thumbnail mx-3"
+                        style={{
+                            width: "300px",
+                            height: "300px",
+                            objectFit: "cover",
+                            borderRadius: "5px",
+                            transition: "transform 0.5s ease-in-out",
+                        }}
+                        />
+                    ))}
                     </div>
                 </div>
-            </div>   
+            </div>
+            <div className="row col-lg-12 col-md'12 col-sm-12 mt-3 mb-3 mx-auto div-doc p-3">
+
+            <div class="row d-flex">
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="card card-box border-0">
+                    <div class="card-body">
+                        <h5 class="card-title">Ecoles Doctorales</h5>
+                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                       
+                    </div>
+                    </div>
+                </div>
+                <div class="col-sm-6  col-md-4 col-lg-3">
+                    <div class="card card-box border-0">
+                    <div class="card-body">
+                        <h5 class="card-title">Laboratoires de recherches</h5>
+                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                       
+                    </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="card card-box border-0">
+                    <div class="card-body">
+                        <h5 class="card-title">Materiels des laboratoires</h5>
+                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                       
+                    </div>
+                    </div>
+                </div>
+                <div class="col-sm-6  col-md-4 col-lg-3">
+                    <div class="card card-box border-0">
+                    <div class="card-body">
+                        <h5 class="card-title">Responsables de Laboratoires</h5>
+                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                        
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+            </div>  
 
         </div>
+        <Footer />
     </>
   )
 }
