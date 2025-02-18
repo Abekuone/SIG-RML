@@ -17,11 +17,25 @@ return new class extends Migration
             $table->timestamps();
         });
 
+        Schema::create('permissions', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->string('name');
+            $table->string('code')->nullable();;
+            $table->timestamps();
+        });
+
+        Schema::create('role_permissions', function (Blueprint $table) {
+            $table->foreignUuid('role_id')->constrained()->onDelete('cascade');
+            $table->foreignUuid('permission_id')->constrained()->onDelete('cascade');
+            $table->primary(['role_id', 'permission_id']);
+        });
+
         Schema::create('users', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name');
             $table->string('email')->unique();
             $table->foreignUuid('role_id')->constrained('roles')->onDelete('cascade');
+            $table->string('matricule')->nullable()->unique();
             $table->string('password');
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
@@ -50,5 +64,7 @@ return new class extends Migration
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('users');
         Schema::dropIfExists('roles');
+        Schema::dropIfExists('permissions');
+        Schema::dropIfExists('role_permissions');
     }
 };

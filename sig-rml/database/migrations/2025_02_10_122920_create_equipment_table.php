@@ -14,8 +14,12 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('type');
             $table->integer('quantity')->default(1);
-            $table->enum('status', ['available', 'reserved', 'under maintenance', 'out of service'])->default('available');
+            $table->enum('quality', ['Neuf', 'Bon état', 'En maintenance', 'Hors de service'])->default('Bon état');
+            $table->enum('status', ['Disponible', 'Reservé'])->default('Disponible');
+            $table->foreignUuid('proprietaire_id')->constrained('users')->onDelete('cascade');
             $table->foreignUuid('laboratory_id')->constrained('laboratories')->onDelete('cascade');
+            $table->foreignUuid('category_equipment_id')->constrained('category_equipments')->onDelete('cascade');
+            $table->string('image')->nullable();
             $table->boolean('is_shared')->default(false);
             $table->timestamps();
         });

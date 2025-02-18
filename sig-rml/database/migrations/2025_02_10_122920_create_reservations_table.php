@@ -14,7 +14,7 @@ return new class extends Migration
             $table->foreignUuid('equipment_id')->constrained('equipments')->onDelete('cascade');
             $table->dateTime('start_date');
             $table->dateTime('end_date');
-            $table->enum('status', ['pending', 'approved', 'rejected', 'completed'])->default('pending');
+            $table->enum('status', ['En attente', 'Approuvée', 'Rejetée', 'Terminée'])->default('En attente');
             $table->text('comment')->nullable();
             $table->timestamps();
         });

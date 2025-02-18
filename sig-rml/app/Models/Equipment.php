@@ -12,16 +12,16 @@ class Equipment extends Model
     use HasFactory, HasUuids;
 
     protected $fillable = [
-        'libelle',
+        'name',
+        'description',
+        'type',
+        'quantity',
+        'quality',
+        'status',
         'proprietaire_id',
         'category_equipement_id',
         'laboratory_id',
-        'description',
-        'type',
-        'status',
         'availability',
-        'quantity',
-        'quality',
         'image',
         'is_shared'
     ];

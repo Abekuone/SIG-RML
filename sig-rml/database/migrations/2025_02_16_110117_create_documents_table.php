@@ -17,7 +17,7 @@ return new class extends Migration
             $table->integer('file_size');
             $table->uuid('documentable_id');
             $table->string('documentable_type');
-            $table->uuid('uploaded_by');
+            $table->foreignUuid('uploaded_by')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

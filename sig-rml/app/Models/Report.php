@@ -13,14 +13,20 @@ class Report extends Model
     use HasFactory, HasUuids;
 
     protected $fillable = [
-        'reservation_id',
-        'status',
+        'type',
         'comment',
+        'reservation_id',
+        'generate_by'
     ];
 
     public function reservation(): BelongsTo
     {
         return $this->belongsTo(Reservation::class);
+    }
+
+    public function generateBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'generate_by');
     }
 
     public function documents(): MorphMany
