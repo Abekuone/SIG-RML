@@ -10,24 +10,18 @@ Route::get('/', function () {
 
 Route::get('/auth/redirect', function () {
     // dd('test socialite', config('services.keycloak'));
-    return Socialite::driver('keycloak' , config('services.keycloak'))->redirect();
+    return Socialite::driver('keycloak')->redirect();
 });
 
 Route::get('/auth/callback', function () {
     try {
-        $user = Socialite::driver('keycloak')->user();
+        $user = Socialite::driver('keycloak')->stateless()->user();
         dd($user);
-
-        Log::info('User connected', ['user' => $user]);
-
-        return redirect()->route('home');
     } catch (\Exception $e) {
-        Log::error('Error connecting user', ['error' => $e->getMessage()]);
-
-        return response()->view('errors.custom', ['error' => $e->getMessage()], 500);
+        Log::error('Erreur Keycloak', ['exception' => $e]);
+        dd($e);
     }
 });
-
 
 Route::get('/home', function () {
     return view('home');
