@@ -13,9 +13,10 @@ class LaboratoryController extends Controller
         $this->crudService = $crudService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $laboratories = $this->crudService->index(Laboratory::class);
+        $criteria = $request->all();
+        $laboratories = $this->crudService->index(Laboratory::class, $criteria);
         return response()->json($laboratories);
     }
 

@@ -51,7 +51,7 @@ Route::get('/auth/callback', function () {
 
 Route::get('/logout', function () {
     Auth::logout();
-    return redirect('http://localhost:8080/realms/sig-rml/protocol/openid-connect/logout?redirect_uri=http://localhost:8000');
+    return redirect('http://localhost:8080/realms/sigrml/protocol/openid-connect/logout?redirect_uri=http://localhost:8000');
 });
 
 Route::middleware(['verify-keycloak-token'])->get('/user', function (Request $request) {

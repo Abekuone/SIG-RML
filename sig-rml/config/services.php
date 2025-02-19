@@ -36,12 +36,11 @@ return [
     ],
 
     'keycloak' => [
-        'client_id'     => env('KEYCLOAK_CLIENT_ID', 'sig-rml'),
+        'client_id'     => env('KEYCLOAK_CLIENT_ID', 'sigrml'),
         'client_secret' => env('KEYCLOAK_CLIENT_SECRET', ''),
         'redirect'      => env('KEYCLOAK_REDIRECT_URI', 'http://127.0.0.1:8000/auth/callback'),
         'base_url'      => env('KEYCLOAK_BASE_URL', 'http://localhost:8080'),
-        'realm'         => env('KEYCLOAK_REALM', 'sig-rml'),
+        'realm'         => env('KEYCLOAK_REALM', 'master'),
     ],
-
 
 ];

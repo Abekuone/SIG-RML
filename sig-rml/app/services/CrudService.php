@@ -18,7 +18,7 @@ class CrudService
             $query->orWhere($key, 'like', '%' . $value . '%');
         }
 
-        return $query;
+        return $query->get();
     }
 
     public function create($model, array $data)

@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
-
+use Illuminate\Support\Facades\Log;
 
 Route::get('/', function () {
     return view('welcome');
@@ -10,13 +10,27 @@ Route::get('/', function () {
 
 Route::get('/auth/redirect', function () {
     // dd('test socialite', config('services.keycloak'));
-    return Socialite::driver('keycloak')->redirect();
+    return Socialite::driver('keycloak' , config('services.keycloak'))->redirect();
 });
 
 Route::get('/auth/callback', function () {
-    $user = Socialite::driver('keycloak')->user();
+    try {
+        $user = Socialite::driver('keycloak')->user();
+        dd($user);
 
-    dd($user);
+        Log::info('User connected', ['user' => $user]);
+
+        return redirect()->route('home');
+    } catch (\Exception $e) {
+        Log::error('Error connecting user', ['error' => $e->getMessage()]);
+
+        return response()->view('errors.custom', ['error' => $e->getMessage()], 500);
+    }
+});
+
+
+Route::get('/home', function () {
+    return view('home');
 });
 
 Route::get('/auth/logout', function () {
@@ -25,7 +39,7 @@ Route::get('/auth/logout', function () {
 
         return redirect(Socialite::driver('keycloak')->getLogoutUrl());
 
-        $redirectUri = Config::get('app.url');
+        $redirectUri = route('/');
 
         return redirect(Socialite::driver('keycloak')->getLogoutUrl($redirectUri, env('KEYCLOAK_CLIENT_ID')));
         return redirect(Socialite::driver('keycloak')->getLogoutUrl($redirectUri, null, 'YOUR_ID_TOKEN_HINT'));

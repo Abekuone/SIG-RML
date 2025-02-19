@@ -13,20 +13,20 @@ class KeycloakService extends AbstractProvider implements ProviderInterface
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            config('services.keycloak.base_url') . '/realms/sig-rml/protocol/openid-connect/auth',
+            config('services.keycloak.base_url') . '/realms/sigrml/protocol/openid-connect/auth',
             $state
         );
     }
 
     protected function getTokenUrl()
     {
-        return config('services.keycloak.base_url') . '/realms/sig-rml/protocol/openid-connect/token';
+        return config('services.keycloak.base_url') . '/realms/sigrml/protocol/openid-connect/token';
     }
 
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            config('services.keycloak.base_url') . '/realms/sig-rml/protocol/openid-connect/userinfo',
+            config('services.keycloak.base_url') . '/realms/sigrml/protocol/openid-connect/userinfo',
             [
                 'headers' => [
                     'Accept' => 'application/json',

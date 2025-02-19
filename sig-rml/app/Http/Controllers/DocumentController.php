@@ -20,7 +20,6 @@ class DocumentController extends Controller
         $this->crudService = $crudService;
     }
 
-
     public function index()
     {
         $documents = $this->crudService->index(Document::class);
