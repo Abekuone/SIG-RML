@@ -4,35 +4,24 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Notification extends Model
 {
-    public $incrementing = false;
-    protected $keyType = 'string';
+    use HasFactory, HasUuids;
 
-    protected static function booted()
-    {
-        static::creating(function ($model) {
-            $model->id = (string) Str::uuid();
-        });
-    }
+    protected $table = 'notifications';
 
     protected $fillable = [
         'user_id',
-        'reservation_id',
-        'message',
-        'sent_at',
-        'type',
+        'data',
     ];
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function reservation()
-    {
-        return $this->belongsTo(Reservation::class);
     }
 }
 

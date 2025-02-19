@@ -4,18 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Laboratory extends Model
 {
-    public $incrementing = false;
-    protected $keyType = 'string';
+    use HasFactory, HasUuids;
 
-    protected static function booted()
-    {
-        static::creating(function ($model) {
-            $model->id = (string) Str::uuid();
-        });
-    }
+    protected $table = 'laboratories';
 
     protected $fillable = [
         'name',
@@ -23,14 +21,14 @@ class Laboratory extends Model
         'manager_id',
     ];
 
-    public function manager()
+    public function manager(): BelongsTo
     {
         return $this->belongsTo(User::class, 'manager_id');
     }
 
-    public function equipments()
+    public function equipements(): HasMany
     {
-        return $this->hasMany(Equipment::class);
+        return $this->hasMany(Equipement::class);
     }
 }
 

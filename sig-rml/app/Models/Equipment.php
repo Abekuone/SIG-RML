@@ -4,37 +4,59 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 class Equipment extends Model
 {
-    public $incrementing = false;
-    protected $keyType = 'string';
+    use HasFactory, HasUuids;
 
-    protected static function booted()
-    {
-        static::creating(function ($model) {
-            $model->id = (string) Str::uuid();
-        });
-    }
+    protected $table = 'equipments';
 
     protected $fillable = [
         'name',
         'description',
         'type',
         'quantity',
+        'quality',
         'status',
+        'proprietaire_id',
+        'category_equipment_id',
         'laboratory_id',
-        'is_shared',
+        'availability',
+        'image',
+        'is_shared'
     ];
 
-    public function laboratory()
+    public function proprietaire(): BelongsTo
     {
-        return $this->belongsTo(Laboratory::class);
+        return $this->belongsTo(User::class, 'proprietaire_id');
     }
 
-    public function reservations()
+    public function categoryEquipement(): BelongsTo
+    {
+        return $this->belongsTo(CategoryEquipement::class);
+    }
+
+    public function laboratoire(): BelongsTo
+    {
+        return $this->belongsTo(Laboratoire::class);
+    }
+
+    public function reservations(): HasMany
     {
         return $this->hasMany(Reservation::class);
+    }
+
+    public function documents(): MorphMany
+    {
+        return $this->morphMany(Document::class, 'documentable');
+    }
+
+    public function updateEquipmentQuantity($quantity)
+    {
+        $this->quantity = $quantity;
+        $this->save();
     }
 }
 

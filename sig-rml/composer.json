@@ -10,8 +10,14 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "firebase/php-jwt": "*",
         "laravel/framework": "^11.31",
-        "laravel/tinker": "^2.9"
+        "laravel/sanctum": "^4.0",
+        "laravel/socialite": "^5.18",
+        "laravel/tinker": "^2.9",
+        "robsontenorio/laravel-keycloak-guard": "^1.6",
+        "socialiteproviders/keycloak": "*",
+        "stevenmaguire/oauth2-keycloak": "^5.1"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

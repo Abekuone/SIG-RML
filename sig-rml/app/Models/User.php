@@ -8,27 +8,21 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, Notifiable;
+    use HasApiTokens, Notifiable, HasFactory, HasUuids;
 
-    public $incrementing = false;
-    protected $keyType = 'string';
-
-    protected static function booted()
-    {
-        static::creating(function ($model) {
-            $model->id = (string) Str::uuid();
-        });
-    }
+    protected $table = 'users';
 
     protected $fillable = [
         'name',
         'email',
         'password',
         'role_id',
-        'laboratory_id',
     ];
 
     protected $hidden = [
@@ -36,41 +30,33 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    protected function casts(): array
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+    ];
+
+    public function hasRole($role)
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        return $this->role->name === $role;
     }
 
-    public function role()
+    public function role(): BelongsTo
     {
         return $this->belongsTo(Role::class);
     }
 
-    public function laboratory()
-    {
-        return $this->belongsTo(Laboratory::class);
-    }
-
-    public function reservations()
-    {
-        return $this->hasMany(Reservation::class);
-    }
-
-    public function notifications()
+    public function notifications(): HasMany
     {
         return $this->hasMany(Notification::class);
     }
 
-    public function laboratories()
+    public function reservations(): HasMany
     {
-        return $this->hasMany(Laboratory::class, 'manager_id');
+        return $this->hasMany(Reservation::class);
     }
 
-    public function roles()
+    public function equipements(): HasMany
     {
-        return $this->belongsToMany(Role::class);
+        return $this->hasMany(Equipement::class, 'proprietaire_id');
     }
 }
