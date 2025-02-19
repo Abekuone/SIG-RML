@@ -21,7 +21,7 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        if ($request->has('id')) {
+        if ($request->has('id') || $request->has('keycloak_id')) {
             $existingUser = User::find($request->id);
             if (!$existingUser) {
                 return response()->json(['message' => 'Utilisateur non trouvé'], 404);

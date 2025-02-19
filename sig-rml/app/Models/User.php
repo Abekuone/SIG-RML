@@ -16,6 +16,14 @@ class User extends Authenticatable
 {
     use HasApiTokens, Notifiable, HasFactory, HasUuids;
 
+    public static function boot()
+    {
+        parent::boot();
+        static::creating(function ($model) {
+            $model->id = $model->id ?? Str::uuid();
+        });
+    }
+
     protected $table = 'users';
 
     protected $fillable = [
@@ -23,6 +31,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role_id',
+        'keycloak_id'
     ];
 
     protected $hidden = [
