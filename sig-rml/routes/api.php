@@ -26,14 +26,13 @@ use App\Http\Controllers\CategoryEquipmentController;
 // });
 
 // Authentification avec Keycloak
-Route::get('/auth/redirect', [KeycloakController::class, 'redirectToProvider'])->name('keycloak.redirect');
-Route::get('auth/callback', [KeycloakController::class, 'handleProviderCallback'])->name('keycloak.callback');
-Route::post('/logout', [KeycloakController::class, 'logout'])->name('logout');
+Route::get('/auth/redirect', [KeycloakController::class, 'redirectToKeycloak']);
+Route::get('auth/callback', [KeycloakController::class, 'handleKeycloakCallback']);
+Route::post('/logout', [KeycloakController::class, 'logout']);
 
 Route::middleware(['verify-keycloak-token'])->get('/user', function (Request $request) {
     return $request->user();
 });
-
 
 // Route pour les ressources
 Route::middleware('auth:keycloak')->group(function () {
@@ -49,7 +48,6 @@ Route::apiResource('users', UserController::class)->middleware('log.action:User,
 Route::apiResource('documents', DocumentController::class)->middleware('log.action:Document,Action sur le document');
 Route::apiResource('action-logs', ActionLogController::class)->middleware('log.action:Action Log,Action sur le journal des actions');
 
-
 Route::prefix('laboratories')->controller(LaboratoryController::class)->group(function () {
     Route::get('/{laboratoryId}/equipements', 'getEquipementByLaboratoryId');
     Route::get('/{laboratoryId}/category-equipments', 'getCategoryEquipmentByLaboratoryId');
@@ -64,7 +62,6 @@ Route::prefix('users')->controller(UserController::class)->group(function () {
     Route::get('/{userId}/reports', 'getUserWithReports');
     Route::get('/{userId}/notifications', 'getUserWithNotifications');
 });
-
 
 Route::prefix('reservations')->controller(ReservationController::class)->group(function () {
     Route::get('/{reservationId}/with-relations', 'getReservationWithAllRelations');

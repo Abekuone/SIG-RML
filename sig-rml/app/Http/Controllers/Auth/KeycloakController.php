@@ -58,7 +58,7 @@ class KeycloakController extends Controller
     {
         Auth::logout();
 
-        $redirectUri = route('/home');
+        $redirectUri = route('landing');
 
         // Obtenir l'URL de déconnexion de Keycloak
         $logoutUrl = Socialite::driver('keycloak')->getLogoutUrl(
