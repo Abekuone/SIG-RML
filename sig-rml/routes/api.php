@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\KeycloakController;
+use App\Http\Controllers\Auth\KeycloakApiAuthController;
 use App\Http\Controllers\LaboratoryController;
 use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\ReservationController;
@@ -25,10 +26,13 @@ use App\Http\Controllers\CategoryEquipmentController;
 //     Route::post('password/reset', 'resetPassword')->middleware('log.action:Password Reset,User reset password');
 // });
 
-// Authentification avec Keycloak
+// Authentification avec Keycloak directement
 Route::get('/auth/redirect', [KeycloakController::class, 'redirectToKeycloak']);
 Route::get('auth/callback', [KeycloakController::class, 'handleKeycloakCallback']);
 Route::post('/logout', [KeycloakController::class, 'logout']);
+
+// Authentification avec API Keycloak
+Route::post('/register', [KeycloakApiAuthController::class, 'register']);
 
 Route::middleware(['verify-keycloak-token'])->get('/user', function (Request $request) {
     return $request->user();
@@ -37,6 +41,11 @@ Route::middleware(['verify-keycloak-token'])->get('/user', function (Request $re
 // Route pour les ressources
 Route::middleware('auth:keycloak')->group(function () {
 });
+
+Route::middleware(['keycloak'])->get('/profile', function (Request $request) {
+    return response()->json(["message" => "Tu es authentifié via Keycloak"]);
+});
+
 
 Route::apiResource('laboratories', LaboratoryController::class)->middleware('log.action:Laboratory,Action sur le laboratoire');
 Route::apiResource('category-equipments', CategoryEquipmentController::class)->middleware('log.action:Category Equipment,Action sur la catégorie d\'équipement');

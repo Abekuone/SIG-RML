@@ -73,6 +73,12 @@ Route::get('/home', function () {
 //     }
 // });
 
+Route::get('/auth/register', [KeycloakController::class, 'redirectToKeycloakForRegister'])->name('register.keycloak');
+Route::get('/auth/register/callback', [KeycloakController::class, 'handleKeycloakRegisterCallback']);
+Route::post('/auth/register', [KeycloakController::class, 'registerUser']);
+Route::get('/register', [KeycloakController::class, 'showRegistrationForm'])->name('register.form');
+
+
 Route::get('/auth/logout', function () {
 
     Auth::logout();
@@ -85,8 +91,6 @@ Route::get('/auth/logout', function () {
         env('KEYCLOAK_CLIENT_ID'),
         session('keycloak_id_token') // Stocker le token dans la session après login
     );
-
-    dd($logoutUrl);
 
     // Rediriger vers Keycloak pour finaliser le logout
     return redirect($logoutUrl);
