@@ -42,6 +42,7 @@ class KeycloakApiAuthController extends Controller
                     "firstName" => $validated['firstName'],
                     "lastName" => $validated['lastName'],
                     "enabled" => true,
+                    "emailVerified" => false,
                     "credentials" => [
                         [
                             "type" => "password",
