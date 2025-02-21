@@ -32,4 +32,4 @@ Route::get('/auth/register/redirect', [KeycloakApiAuthController::class, 'redire
 Route::get('/auth/register/callback', [KeycloakApiAuthController::class, 'handleKeycloakRegisterCallback']);
 Route::post('/auth/logout', [KeycloakApiAuthController::class, 'keycloakLogout'])->name('logout');
 // Register directement avec API Keycloak
-Route::post('/register', [KeycloakApiAuthController::class, 'register']);
+Route::post('/register', [KeycloakApiAuthController::class, 'keycloakRegister']);

@@ -25,7 +25,7 @@ class KeycloakApiAuthController extends Controller
         $this->KeycloakService = $keycloakService;
     }
 
-    public function register(Request $request, KeycloakService $keycloakService)
+    public function keycloakRegister(Request $request, KeycloakService $keycloakService)
     {
         try {
             $validated = $request->validate([

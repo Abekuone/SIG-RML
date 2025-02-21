@@ -30,7 +30,7 @@ Route::get('/auth/register/redirect', [KeycloakApiAuthController::class, 'redire
 Route::get('auth/register/callback', [KeycloakApiAuthController::class, 'handleKeycloakCallbackForLogin']);
 Route::post('/auth/logout', [KeycloakApiAuthController::class, 'keycloakLogout']);
 // Register directement avec API Keycloak
-Route::post('/register', [KeycloakApiAuthController::class, 'register']);
+Route::post('/register', [KeycloakApiAuthController::class, 'keycloakRegister']);
 
 Route::middleware(['verify-keycloak-token'])->get('/user', function (Request $request) {
     return $request->user();
