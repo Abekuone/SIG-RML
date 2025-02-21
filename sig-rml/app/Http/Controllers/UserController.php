@@ -73,4 +73,77 @@ class UserController extends Controller
         return response()->json($user);
     }
 
+    // Requêtes liées à keycloak
+
+    public function getUsers(KeycloakService $keycloakService, Request $request)
+    {
+        // Optionnel : Pagination
+        $max = $request->query('max', 100);
+        $offset = $request->query('offset', 0);
+
+        $users = $keycloakService->getAllUsers($max, $offset);
+
+        if ($users !== null) {
+            return response()->json([
+                'message' => 'Liste des utilisateurs récupérée avec succès.',
+                'data' => $users,
+            ], 200);
+        }
+
+        return response()->json([
+            'message' => 'Erreur lors de la récupération des utilisateurs.',
+        ], 500);
+    }
+
+    public function getUsersByRole(KeycloakService $keycloakService, Request $request)
+    {
+        // Optionnel : Pagination
+        $max = $request->query('max', 100);
+        $offset = $request->query('offset', 0);
+        $role = $request->query('role', 'AGENT');
+
+        $users = $keycloakService->getUsersByRole($max, $offset, $role);
+
+        if ($users !== null) {
+            return response()->json([
+                'message' => 'Liste des utilisateurs récupérée avec succès.',
+                'data' => $users,
+            ], 200);
+        }
+
+        return response()->json([
+            'message' => 'Erreur lors de la récupération des utilisateurs.',
+        ], 500);
+    }
+
+    public function getGroupIdByName(KeycloakService $keycloakService, Request $request)
+    {
+        $groupName = $request->query('entite', 'EIES');
+        $currentUser = Auth::user();
+
+        if (!$currentUser || empty($currentUser->entite)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Utilisateur non authentifié ou entité manquante.',
+            ], 401);
+        }
+
+        $users = User::where('entite', $groupName)
+            ->where('preferred_username', '!=', $currentUser->token->preferred_username)
+            ->get(['id', 'preferred_username', 'given_name', 'family_name', 'email', 'role', 'entite']);
+
+        if ($users->isEmpty()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Aucun utilisateur trouvé pour le groupe spécifié.',
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'group' => $groupName,
+            'users' => $users,
+        ], 200);
+    }
+
 }

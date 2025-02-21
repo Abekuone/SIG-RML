@@ -7,10 +7,25 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Exception;
 use Illuminate\Support\Facades\Log;
+use App\Models\User;
+use App\Http\Controllers\UserController;
 
 class KeycloakApiAuthController extends Controller
 {
-    public function register(Request $request)
+
+    protected $userController;
+    protected $keycloakService;
+
+    public function __construct(
+        UserController $userController,
+        KeycloakSercice $keycloakService,
+    )
+    {
+        $this->UserController = $userController;
+        $this->KeycloakService = $keycloakService;
+    }
+
+    public function register(Request $request, KeycloakService $keycloakService)
     {
         try {
             $validated = $request->validate([
@@ -37,7 +52,7 @@ class KeycloakApiAuthController extends Controller
             // Création de l'utilisateur sur Keycloak
             try {
                 $response = Http::withToken($adminToken)->post(env('KEYCLOAK_BASE_URL') . '/admin/realms/' . env('KEYCLOAK_REALM') . '/users', [
-                    "username" => $validated['username'],
+                    "username" => $userController->generateUsername($userData['firstName'], $userData['lastName']),
                     "email" => $validated['email'],
                     "firstName" => $validated['firstName'],
                     "lastName" => $validated['lastName'],
@@ -68,5 +83,113 @@ class KeycloakApiAuthController extends Controller
         } catch (\Exception $e) {
             return response()->json(["error" => $e->getMessage()], 500);
         }
+    }
+
+    public function redirectToKeycloakForLogin()
+    {
+        return Socialite::driver('keycloak')->redirect();
+    }
+
+    // Callback après authentification
+    public function handleKeycloakCallbackForLogin()
+    {
+        try {
+            $socialUser = Socialite::driver('keycloak')->stateless()->user();
+
+            if (!$socialUser) {
+                return response()->json(['error' => 'Utilisateur non trouvé'], 401);
+            }
+
+            // Vérifier si l'utilisateur existe dans la base de données
+            $user = User::where('email', $socialUser->email)->first();
+
+            if (!$user) {
+                return response()->json(['error' => 'Utilisateur introuvable dans la base de données'], 401);
+            }
+
+            Auth::login($user);
+
+            // Générer un token d'authentification
+            $token = $user->createToken('keycloak_token')->plainTextToken;
+
+            return redirect('/');
+
+            return response()->json([
+                'user'  => $user,
+                'token' => $token,
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Erreur Keycloak', ['exception' => $e]);
+
+            return response()->json([
+                'error' => 'Problème d\'authentification'
+            ], 500);
+        }
+    }
+
+    public function storeTokens($userId, $accessToken, $refreshToken, $expiresIn, $refreshExpiresIn)
+    {
+        UserToken::updateOrCreate(
+            ['user_id' => $userId],
+            [
+                'access_token' => $accessToken,
+                'refresh_token' => $refreshToken,
+                'expires_at' => now()->addSeconds($expiresIn),
+                'refresh_expires_at' => now()->addSeconds($refreshExpiresIn),
+            ]
+        );
+    }
+
+    public function keycloakLogout(Request $request, KeycloakService $keycloakService)
+    {
+        try {
+            $refreshtoken = $request->bearerToken();
+
+            $logoutSuccess = $keycloakService->revokeToken($refreshtoken);
+
+            if (!$logoutSuccess) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Token non fourni.'
+                ], 400);
+            }
+            else{
+                Auth::logout();
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Déconnexion réussie.'
+                ], 200);
+            }
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Une erreur est survenue lors de la déconnexion.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    function generateUsername(string $firstName, string $lastName): string
+    {
+
+        // Nettoyer les entrées (supprimer les caractères spéciaux et mettre en minuscules)
+        $cleanFirstName = strtolower(preg_replace('/[^a-zA-Z]/', '', $firstName));
+        $cleanLastName = strtolower(preg_replace('/[^a-zA-Z]/', '', $lastName));
+
+        // Limiter la longueur des noms pour éviter des noms d'utilisateur trop longs
+        $cleanFirstName = substr($cleanFirstName, 0, 8); // Maximum 8 caractères pour le prénom
+        $cleanLastName = substr($cleanLastName, 0, 8);   // Maximum 8 caractères pour le nom
+        $randomNumber = str_pad(random_int(0, 999), 3, '0', STR_PAD_LEFT);
+        // Combiner les éléments pour créer le nom d'utilisateur
+        $username = $cleanFirstName . '.' . $cleanLastName . $randomNumber;
+        // Limiter la longueur des noms pour éviter des noms d'utilisateur trop longs
+        $cleanFirstName = substr($cleanFirstName, 0, 8); // Maximum 8 caractères pour le prénom
+        $cleanLastName = substr($cleanLastName, 0, 8);   // Maximum 8 caractères pour le nom
+        $randomNumber = str_pad(random_int(0, 999), 3, '0', STR_PAD_LEFT);
+        // Combiner les éléments pour créer le nom d'utilisateur
+        $username = $cleanFirstName . '.' . $cleanLastName . $randomNumber;
+
+        return $username;
     }
 }
