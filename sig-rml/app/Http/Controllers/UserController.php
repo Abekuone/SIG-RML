@@ -3,14 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\services\CrudService;
+use App\services\KeycloakService;
+use App\Models\User;
+
 
 class UserController extends Controller
 {
     protected $crudService;
+    protected $keycloakService;
 
     public function __construct(CrudService $crudService)
     {
         $this->crudService = $crudService;
+        $this->keycloakService = $keycloakService;
     }
 
     public function index()

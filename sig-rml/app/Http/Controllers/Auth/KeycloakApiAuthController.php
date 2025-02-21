@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Http;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use App\Models\User;
-use App\Http\Controllers\UserController;
+use App\services\KeycloakService;
 
 class KeycloakApiAuthController extends Controller
 {
@@ -17,11 +17,9 @@ class KeycloakApiAuthController extends Controller
     protected $keycloakService;
 
     public function __construct(
-        UserController $userController,
-        KeycloakSercice $keycloakService,
+        KeycloakService $keycloakService,
     )
     {
-        $this->UserController = $userController;
         $this->KeycloakService = $keycloakService;
     }
 
@@ -52,7 +50,7 @@ class KeycloakApiAuthController extends Controller
             // Création de l'utilisateur sur Keycloak
             try {
                 $response = Http::withToken($adminToken)->post(env('KEYCLOAK_BASE_URL') . '/admin/realms/' . env('KEYCLOAK_REALM') . '/users', [
-                    "username" => $userController->generateUsername($userData['firstName'], $userData['lastName']),
+                    "username" => $this->generateUsername($validated['firstName'], $validated['lastName']),
                     "email" => $validated['email'],
                     "firstName" => $validated['firstName'],
                     "lastName" => $validated['lastName'],

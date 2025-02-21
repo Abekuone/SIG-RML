@@ -60,6 +60,10 @@ Route::prefix('equipements')->controller(EquipmentController::class)->group(func
     Route::get('/{equipementId}/reservations', 'getReservationByEquipementId');
 });
 
+Route::prefix('keycloak-users')->controller(UserController::class)->group(function () {
+    Route::get('/all', 'getUsers');
+});
+
 Route::prefix('users')->controller(UserController::class)->group(function () {
     Route::get('/{userId}/reservations', 'getUserWithReservations');
     Route::get('/{userId}/reports', 'getUserWithReports');
