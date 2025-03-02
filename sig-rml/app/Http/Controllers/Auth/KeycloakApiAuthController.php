@@ -9,6 +9,8 @@ use Exception;
 use Illuminate\Support\Facades\Log;
 use App\Models\User;
 use App\services\KeycloakService;
+use Laravel\Socialite\Facades\Socialite;
+
 
 class KeycloakApiAuthController extends Controller
 {
@@ -143,7 +145,7 @@ class KeycloakApiAuthController extends Controller
         try {
             $refreshtoken = $request->bearerToken();
 
-            $logoutSuccess = $keycloakService->revokeToken($refreshtoken);
+            return $keycloakService->revokeToken($refreshtoken);
 
             if (!$logoutSuccess) {
                 return response()->json([

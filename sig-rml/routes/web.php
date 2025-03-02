@@ -28,8 +28,8 @@ Route::get('/home', function () {
     return view('home');
 });
 
-Route::get('/auth/register/redirect', [KeycloakApiAuthController::class, 'redirectToKeycloakForRegister'])->name('register.keycloak');
-Route::get('/auth/register/callback', [KeycloakApiAuthController::class, 'handleKeycloakRegisterCallback']);
-Route::post('/auth/logout', [KeycloakApiAuthController::class, 'keycloakLogout'])->name('logout');
+Route::get('/auth/login/redirect', [KeycloakApiAuthController::class, 'redirectToKeycloakForLogin']);
+Route::get('/auth/login/callback', [KeycloakApiAuthController::class, 'handleKeycloakCallbackForLogin']);
+Route::get('/auth/logout', [KeycloakApiAuthController::class, 'keycloakLogout']);
 // Register directement avec API Keycloak
 Route::post('/register', [KeycloakApiAuthController::class, 'keycloakRegister']);
