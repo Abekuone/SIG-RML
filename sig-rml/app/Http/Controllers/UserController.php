@@ -3,14 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\services\CrudService;
+use App\services\KeycloakService;
+use App\Models\User;
+
 
 class UserController extends Controller
 {
     protected $crudService;
+    protected $keycloakService;
 
     public function __construct(CrudService $crudService)
     {
         $this->crudService = $crudService;
+        $this->keycloakService = $keycloakService;
     }
 
     public function index()
@@ -71,6 +77,79 @@ class UserController extends Controller
         $user = User::find($userId);
         $user->load('notifications');
         return response()->json($user);
+    }
+
+    // Requêtes liées à keycloak
+
+    public function getUsers(KeycloakService $keycloakService, Request $request)
+    {
+        // Optionnel : Pagination
+        $max = $request->query('max', 100);
+        $offset = $request->query('offset', 0);
+
+        $users = $keycloakService->getAllUsers($max, $offset);
+
+        if ($users !== null) {
+            return response()->json([
+                'message' => 'Liste des utilisateurs récupérée avec succès.',
+                'data' => $users,
+            ], 200);
+        }
+
+        return response()->json([
+            'message' => 'Erreur lors de la récupération des utilisateurs.',
+        ], 500);
+    }
+
+    public function getUsersByRole(KeycloakService $keycloakService, Request $request)
+    {
+        // Optionnel : Pagination
+        $max = $request->query('max', 100);
+        $offset = $request->query('offset', 0);
+        $role = $request->query('role', 'AGENT');
+
+        $users = $keycloakService->getUsersByRole($max, $offset, $role);
+
+        if ($users !== null) {
+            return response()->json([
+                'message' => 'Liste des utilisateurs récupérée avec succès.',
+                'data' => $users,
+            ], 200);
+        }
+
+        return response()->json([
+            'message' => 'Erreur lors de la récupération des utilisateurs.',
+        ], 500);
+    }
+
+    public function getGroupIdByName(KeycloakService $keycloakService, Request $request)
+    {
+        $groupName = $request->query('entite', 'EIES');
+        $currentUser = Auth::user();
+
+        if (!$currentUser || empty($currentUser->entite)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Utilisateur non authentifié ou entité manquante.',
+            ], 401);
+        }
+
+        $users = User::where('entite', $groupName)
+            ->where('preferred_username', '!=', $currentUser->token->preferred_username)
+            ->get(['id', 'preferred_username', 'given_name', 'family_name', 'email', 'role', 'entite']);
+
+        if ($users->isEmpty()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Aucun utilisateur trouvé pour le groupe spécifié.',
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'group' => $groupName,
+            'users' => $users,
+        ], 200);
     }
 
 }

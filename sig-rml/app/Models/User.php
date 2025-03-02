@@ -44,9 +44,22 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    public static function findOrCreateFromKeycloak($socialUser)
+    {
+        return self::firstOrCreate(
+            ['email' => $socialUser->email],
+            [
+                'name' => $socialUser->name ?? $socialUser->nickname,
+                'keycloak_id' => $socialUser->id,
+                'password' => null, // Pas de mot de passe stocké pour Keycloak
+            ]
+        );
+    }
+
+
     public function hasRole($role)
     {
-        return $this->role->name === $role;
+        return optional($this->role)->name === $role;
     }
 
     public function role(): BelongsTo
