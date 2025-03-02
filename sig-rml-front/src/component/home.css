@@ -15,9 +15,52 @@ html, body {
 
 
 
+.hero-section {
+    position: relative;
+    margin-top: 0; 
+    padding-top: 0;
+    width: 100%;
+    height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+   
+}
+
+.hero-section .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.hero-content h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+.hero-content h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+
+
+
+
+
 
 .carousel {
-    max-height: 100vh; /* Ajuste selon ton besoin */
+    max-height: 50vh; /* Ajuste selon ton besoin */
     overflow: hidden;
 }
 
@@ -31,7 +74,7 @@ html, body {
 
 .carousel-img {
     
-    height: 50vh; /* Ajuste la hauteur selon tes besoins */
+    height: 25vh; /* Ajuste la hauteur selon tes besoins */
     width: 100%;
     object-fit: cover; /* Affiche toute l'image sans la couper */
     background-color: #27287598; /* Ajoute un fond noir si l'image ne prend pas toute la hauteur */
@@ -101,13 +144,40 @@ html, body {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(30, 136, 229, 0.5); /* Couleur bleuâtre avec opacité */
-    z-index: 1; /* Assurez-vous que la superposition est au-dessus de l'image */
+    background-color: rgba(30, 136, 229, 0.5); 
+    z-index: 1; 
 }
 
 .card-img-overlay {
-    position: relative; /* Pour que le texte soit au-dessus de la superposition */
-    z-index: 2; /* Assurez-vous que le texte est au-dessus de la superposition */
+    position: relative; 
+    z-index: 2;
+}
+
+
+.modal-backdrop {
+    background-color: rgba(0, 0, 0, 0.5) !important; /* Ajuster la transparence si nécessaire */
+}
+
+.modal {
+    display: block !important;
+    opacity: 1 !important;
+}
+
+@media screen and (min-width: 924px) and (max-width:1024px)  {
+    .col{
+        width: 50%;
+    }
+
+    .btn{
+        width: 50%;
+        padding: 5px;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width:924px)  {
+    .col{
+        width: 50%;
+    }
 }
 
 

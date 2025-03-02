@@ -1,55 +1,144 @@
-body {
-    background-color: #f9f9fa;
+html, body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-header {
-    background-color: #007bff; /* Couleur d'arrière-plan de l'en-tête */
-    color: white;
-    padding: 20px 0;
+/* Navbar */
+.sticky-top {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    color:black;
+    border-radius: 0;
+    z-index: 1020;
 }
 
-.card-opacity {
+/* Hero Section */
+.hero-section {
     position: relative;
+    margin-top: 0; 
+    padding-top: 0;
+    width: 100%;
+    height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+   
 }
 
-.overlay {
+.hero-section .overlay {
     position: absolute;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(30, 136, 229, 0.5); /* Couleur bleuâtre avec opacité */
-    z-index: 1;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
 }
 
-.card-img-overlay {
+.hero-content {
     position: relative;
     z-index: 2;
 }
 
-.btn-success {
-    background-color: #28a745; /* Couleur verte pour le bouton */
-    border: none;
-}
-
-.btn-success:hover {
-    background-color: #218838; /* Couleur plus foncée au survol */
-}
-
-.card {
-    margin-bottom: 20px; /* Espacement entre les cartes */
-}
-
-.card-title {
+.hero-content h1 {
+    font-size: 2.5rem;
     font-weight: bold;
 }
 
-.card-text {
-    font-size: 1.1rem; /* Taille de police pour le texte */
+.hero-content h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
 }
 
-footer {
-    background-color: #007bff; /* Couleur d'arrière-plan du pied de page */
-    color: white;
-    padding: 10px 0;
+
+.carousel-container {
+    overflow: hidden;
+    width: 100%;
+    white-space: nowrap;
+    position: relative;
 }
+
+.carousel-track {
+    display: flex;
+    width: calc(100%);
+    animation: scroll 20s linear infinite; 
+}
+
+.carousel-item {
+    flex: 0 0 auto;
+    display: block;
+    width: 300px; 
+    margin: 0 10px; 
+}
+
+.carousel-image {
+    width: 100%;
+    border-radius: 10px;
+}
+
+/* Animation pour le défilement */
+@keyframes scroll {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+
+
+
+
+/* Galerie */
+.img-thumbnail {
+    border-radius: 10px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.img-thumbnail:hover {
+    transform: scale(1.05);
+}
+
+/* Formulaires */
+.form-control {
+    border-radius: 5px;
+}
+
+/* Boutons */
+.btn {
+    border-radius: 25px;
+}
+
+/* Footer */
+footer {
+    font-size: 14px;
+}
+
+
+
+/* Add this to your CSS file or within a <style> block in the component */
+
+.service-card {
+    background: linear-gradient(135deg, #f3f4f6, #ffffff); /* Clean gradient background */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
+    border: 1px solid #e0e0e0; /* Subtle border */
+}
+
+.service-card:hover {
+    transform: translateY(-10px); /* Hover effect for a slight lift */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Soft shadow on hover */
+    background: linear-gradient(135deg, #ffffff, #f3f4f6); /* Inverted gradient on hover */
+}
+
+.service-card h3 {
+    color: #333; /* Slightly darker text for the title */
+}
+
+.service-card .fs-1 {
+    color: #3f51b5; /* Accent color for the icons */
+}
+

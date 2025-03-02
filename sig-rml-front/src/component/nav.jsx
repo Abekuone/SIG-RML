@@ -37,18 +37,19 @@ const Nav = () => {
             <div className="info">
               <h2>SIG-RML</h2>
             </div>
+            {/* Icône du menu burger */}
+            <div className="burger-menu" onClick={toggleMenu}>
+              {isOpen ? <FaTimes className="burger-icon" /> : <FaBars className="burger-icon" />}
+            </div>
           </div>
 
-          {/* Icône du menu burger */}
-          <div className="burger-menu" onClick={toggleMenu}>
-            {isOpen ? <FaTimes className="burger-icon" /> : <FaBars className="burger-icon" />}
-          </div>
+          
 
           {/* Menu de navigation */}
           <div className={`nav-head ${isOpen ? "active" : ""}`}>
             <ul>
               <li>
-                <Link to="/" className={`link ${location.pathname === "/" ? "active" : ""}`} onClick={toggleMenu}>Accueil</Link>
+                <Link to="/" className={`link ${location.pathname === "/home" ? "active" : ""}`} onClick={toggleMenu}>Accueil</Link>
               </li>
               <li>
                 <Link to="/equipements" className={`link ${location.pathname === "/equipements" ? "active" : ""}`} onClick={toggleMenu}>Equipements</Link>
@@ -73,14 +74,14 @@ const Nav = () => {
               
               <div className="info">
                
-              <div class="dropdown">
-                  <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+              <div className="dropdown">
+                  <button className="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                     <FaUser />
                   </button>
-                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                    <li><button class="dropdown-item" href="#">Profile</button></li>
-                    <li><button class="dropdown-item" href="#">Modifier le password</button></li>
-                    <li><button class="dropdown-item" href="#">Deconnexion</button></li>
+                  <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li><button className="dropdown-item" href="#">Profile</button></li>
+                    <li><button className="dropdown-item" href="#">Modifier le password</button></li>
+                    <li><button className="dropdown-item" href="#">Deconnexion</button></li>
                   </ul>
                 </div>
                

@@ -11,7 +11,9 @@ import Login from "./login";
 import  IndexReservations from "./reservations"
 //import Admin from './admin'
 import Statistic from './statistiques'
-import Welcome from './welcome'
+import IndexFile from './fichiers'
+import IndexCategory from './categories/indexcategory'
+//import Welcome from './welcome'
 
 
 
@@ -20,7 +22,7 @@ const Rout= ()=>{
     return (
         <>
             <Routes>
-            <Route path='/' element={<Welcome/>}/>
+                
                 <Route path='/home' element={<Home />}/>
                 <Route path='/Equipements' element={<Equipements />}/>
                 <Route path='/utilisateurs' element={<IndexUser />}/>
@@ -31,6 +33,8 @@ const Rout= ()=>{
                 <Route path='/reservations' element={<IndexReservations />}/>
                 <Route path="/login" element={<Login />} />
                 <Route path="/administration" element={<Statistic />} />
+                <Route path="/fichiers" element={<IndexFile />} />
+                <Route path="/categorys" element={<IndexCategory />} />
                
                 {/*<Route path='/statistiques' element={<AppStatistic />}/>*/}
             </Routes>

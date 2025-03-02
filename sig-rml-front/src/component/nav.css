@@ -47,8 +47,15 @@
     color: #000;
 }
 
+.header .last_header .user_profile{
+    display: flex;
+    padding: 5px;
+}
+
 .header .last_header .user_profile .info{
     color: #000;
+    padding: 5px;
+    margin-right: 5px;
 }
 
 .header .last_header .btn-connexion{
@@ -104,7 +111,47 @@
     display: none;
     cursor: pointer;
     font-size: 24px;
-    color: white;
+    color: black;
+}
+
+
+@media screen and (min-width: 768px) and (max-width:924px)  {
+
+    .burger-menu {
+        display: block;
+    }
+
+    .nav-head {
+        display: none;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        background: white;
+        text-align: left;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .nav-head.active {
+        display: block;
+        
+    }
+
+    .nav-head ul {
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    .nav-head ul li {
+        padding: 15px 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .nav-head ul li .link {
+        color: #232323;
+        font-size: 18px;
+    }
+
 }
 
 /* Responsive */
@@ -119,13 +166,14 @@
         top: 60px;
         left: 0;
         width: 100%;
-        background: #232323;
+        background: white;
         text-align: left;
         transition: all 0.3s ease-in-out;
     }
 
     .nav-head.active {
         display: block;
+        
     }
 
     .nav-head ul {
@@ -139,7 +187,7 @@
     }
 
     .nav-head ul li .link {
-        color: white;
+        color: #232323;
         font-size: 18px;
     }
 }

@@ -1,0 +1,20 @@
+/sig-rml-front/node_modules
+/sig-rml-front/.pnp
+/sig-rml-front/.pnp.js
+
+# testing
+/sig-rml-front/coverage
+
+# production
+/sig-rml-front/build
+
+# misc
+/sig-rml-front/.DS_Store
+/sig-rml-front/.env.local
+/sig-rml-front/.env.development.local
+/sig-rml-front/.env.test.local
+/sig-rml-front/.env.production.local
+
+/sig-rml-front/npm-debug.log*
+/sig-rml-front/yarn-debug.log*
+/sig-rml-front/yarn-error.log*

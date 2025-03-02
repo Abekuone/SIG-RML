@@ -1,26 +1,29 @@
-import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Rout from './component/routes';
 import Login from "./component/login";
-import Nav from "./component/nav";
-//import Footer from "./component/footer";
+import { AuthProvider } from './context/authContext';
+//import PrivateRoute from './auth/privateRoutes';
+import Welcome from './component/welcome';
 
 const Layout = () => {
-  const location = useLocation();
-  
+  //const location = useLocation();
+
   // Liste des pages sans header et footer
-  const noHeaderFooterRoutes = ["/login"];
+  //const noHeaderFooterRoutes = ["/login"];
 
   return (
-    <>
-      {!noHeaderFooterRoutes.includes(location.pathname) && <Nav />}
-      
+    <AuthProvider>
       <Routes>
+        {/* Page Welcome affichée par défaut */}
+        <Route path="/" element={<Welcome />} />
+        
+        {/* Route publique pour la connexion */}
         <Route path="/login" element={<Login />} />
+        
+        {/* Routes privées accessibles après connexion  <Route path="/*" element={<PrivateRoute><Rout /></PrivateRoute>} />*/}
         <Route path="/*" element={<Rout />} />
       </Routes>
-
-      {!noHeaderFooterRoutes.includes(location.pathname)}
-    </>
+    </AuthProvider>
   );
 };
 

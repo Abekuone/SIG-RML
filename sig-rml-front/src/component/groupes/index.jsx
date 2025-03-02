@@ -9,10 +9,13 @@ import CreateGroupe from './create';
 import { HiOutlineUserGroup } from "react-icons/hi2";
 import "./index.css"
 //import {Link} from 'react-router-dom';
+//import Nav from "../nav";
 import { CiEdit } from "react-icons/ci";
 import { MdDeleteOutline } from "react-icons/md";
-import { BiShow } from "react-icons/bi";
+
 import DataTable from "react-data-table-component";
+import EditGroupe from './edit';
+import DeleteGoupe from './deletegroupe';
 
 export default function IndexGroupe() {
 
@@ -23,11 +26,45 @@ export default function IndexGroupe() {
       ];
 
     const [show, setShow] = useState(false);
+    const [showEdit, setShowEdit] = useState(false);
+    const [showDelete, setShowDelete] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    const handleCloseEdit = () => setShowEdit(false);
+    const handleShowEdit = () => setShowEdit(true);
+
+    const handleCloseDelete = () => setShowDelete(false);
+    const handleShowDelete = () => setShowDelete(true);
+
     const [searchText, setSearchText] = useState('');
     const [filteredData, setFilteredData] = useState(data);
+
+
+    const customStyles = {
+      rows: {
+        style: {
+          fontSize: '18px', 
+          '&:hover': {
+            backgroundColor: '#f1f1f1', 
+          },
+        },
+      },
+      headCells: {
+        style: {
+          fontSize: '20px', 
+          fontWeight: 'bold',
+          backgroundColor: '#1E3A8A', 
+          color:"white"
+        },
+      },
+      cells: {
+        style: {
+          fontSize: '18px', 
+        },
+      },
+    };
     
     
         const columns = [
@@ -44,9 +81,9 @@ export default function IndexGroupe() {
               name: "Action",
               cell: row => (
                 <div className='d-flex flex-wrap justify-content-center align-items-center'>
-                 <button className="btn btn-info btn-sm me-2"><BiShow /></button>
-                  <button className="btn btn-warning btn-sm me-2"><CiEdit /></button>
-                  <button className="btn btn-danger btn-sm"><MdDeleteOutline /></button>
+                 
+                  <button className="btn btn-warning btn-sm me-2" onClick={()=>handleShowEdit()}><CiEdit /></button>
+                  <button className="btn btn-danger btn-sm" onClick={()=>handleShowDelete()}><MdDeleteOutline /></button>
                 </div>
               ),
               ignoreRowClick: true,
@@ -73,25 +110,17 @@ export default function IndexGroupe() {
         };
   return (
     <>
-        <div className="mx-auto  px-3 mb-3 mt-3 col-md-12 col-sm-12 col-lg-12 d-flex flex-wrap align-items-start">
-            <div className="row mx-auto col-md-12 col-lg-8  col-sm-12 p-3">
-                <Admin />
-            </div> 
+    <Admin />
+        <div className="mx-auto  px-3 mb-3 mt-3 col-md-12 col-sm-12 col-lg-12 d-flex flex-wrap align-items-start div-position">
+            
 
 
             <div className="row mx-auto card shadow-sm border-0 rounded mt-3 col-md-12 col-lg-12 col-sm-12 p-3">
                 <div class="row p-1 mb-1 rounded d-flex flex-wrap justify-content-between align-items-center" >
-                    <div class="col-lg-6 col-md-8 col-sm-6 justify-content-start">
-                        <p class="text-dark text-start text-sm-start text-md-start  text-lg-start fw-bold">Listes des groupes</p>
+                    <div class="col-lg-4 col-md-12 col-sm-12 justify-content-start">
+                        <p class="text-dark text-start text-sm-start text-md-start  text-lg-start fw-bold">Listes des roles</p>
                     </div>
-                    <div class="col-lg-6 col-md-4 col-sm-6 d-flex flex-wrap justify-content-end">
-                        <button class="btn btn-primary me-2 fw-500 " onClick={handleShow}><HiOutlineUserGroup /> Nouveau</button>
-                        <CreateGroupe show={show} handleClose={handleClose} />
-                        
-                    </div>
-                </div>
-                <div className="row table-responsive-sm">
-                <div className="mb-3">
+                    <div className="col-lg-4 col-md-12 col-sm-12">
                         <input 
                             type="text" 
                             className="form-control" 
@@ -100,10 +129,24 @@ export default function IndexGroupe() {
                             onChange={handleSearch} 
                         />
                     </div>
-            <DataTable columns={columns} data={filteredData} pagination />
+                    <div class="col-lg-4 col-md-4 col-sm-6 d-flex flex-wrap justify-content-end">
+                        <button class="btn btn-primary me-2 fw-500 " onClick={handleShow}><HiOutlineUserGroup /> Nouveau</button>
+                       
+                        
+                    </div>
+                </div>
+                
+                <div className="row table-responsive-sm">
+                
+                    <div className="row table-responsive-sm dataTable-container">
+                      <DataTable columns={columns} data={filteredData} pagination customStyles={customStyles} highlightOnHover />
+                  </div>
                 </div>
             </div>
         </div>
+        <CreateGroupe show={show} handleClose={handleClose} />
+        <EditGroupe show={showEdit} handleClose={handleCloseEdit} />
+        <DeleteGoupe show={showDelete} handleClose={handleCloseDelete} />
     </>
   )
 }
