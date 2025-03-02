@@ -6,6 +6,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import { BiShow } from "react-icons/bi";
 import DataTable from "react-data-table-component";
+import "./index.css";
+//import Nav from "../nav";
 
 
 
@@ -19,6 +21,31 @@ export default function IndexDroit() {
 
        const [searchText, setSearchText] = useState('');
        const [filteredData, setFilteredData] = useState(data);
+
+
+       const customStyles = {
+        rows: {
+          style: {
+            fontSize: '18px', 
+            '&:hover': {
+              backgroundColor: '#f1f1f1', 
+            },
+          },
+        },
+        headCells: {
+          style: {
+            fontSize: '20px', 
+            fontWeight: 'bold',
+            backgroundColor: '#1E3A8A', 
+            color:"white"
+          },
+        },
+        cells: {
+          style: {
+            fontSize: '18px', 
+          },
+        },
+      };
 
 
        const columns = [
@@ -54,9 +81,9 @@ export default function IndexDroit() {
                    setSearchText(value);
                
                    const filtered = data.filter(row =>
-                       row.Nomcomplet.toLowerCase().includes(value.toLowerCase()) ||
-                       row.email.toLowerCase().includes(value.toLowerCase()) ||
-                       row.Groupe.toLowerCase().includes(value.toLowerCase())
+                       row.Libelle.toLowerCase().includes(value.toLowerCase()) ||
+                       row.Description.toLowerCase().includes(value.toLowerCase()) 
+                       
                    );
                    
                    setFilteredData(filtered);
@@ -64,33 +91,42 @@ export default function IndexDroit() {
     
   return (
     <>
-        <div className="mx-auto px-3 mb-3 mt-3 col-md-12 col-sm-12 col-lg-12 d-flex flex-wrap align-items-start">
-            <div className="row mx-auto col-md-12 col-lg-8  col-sm-12 p-3">
-                <Admin />
-            </div> 
+    <Admin />
 
 
-            <div className=" row  mx-auto card border-0 mt-3 shadow-sm col-md-12 col-lg-12 col-sm-12 p-3">
-                <div class="row p-1 mb-1 rounded d-flex flex-wrap justify-content-between align-items-center" >
-                    <div class="col-lg-6 col-md-8 col-sm-6 justify-content-start">
-                        <p class="text-dark text-start text-sm-start text-md-start  text-lg-start fw-bold">Listes des droits</p>
-                    </div>
-                   
-                </div>
-                <div className="row table-responsive-sm">
-                <div className="mb-3">
+    <div className="mx-auto px-3 mb-3 mt-3 col-md-12 col-sm-12 col-lg-12 d-flex flex-wrap align-items-start div-position">
+            
+
+
+            <div className="row mx-auto card border-0 mt-3 shadow-sm col-md-12 col-lg-12 col-sm-12 p-3">
+              <div className="row p-1 mb-1 rounded d-flex flex-wrap justify-content-between align-items-center">
+                  <div className="col-lg-4 col-md-8 col-sm-6">
+                      <p className="text-dark text-start fw-bold fs-5">Listes des équipements</p>
+                  </div>
+                  <div className="col-md-6 col-lg-5 col-sm-12">
                         <input 
                             type="text" 
                             className="form-control" 
-                            placeholder="Rechercher une permission..." 
+                            placeholder="Rechercher laboratoire..." 
                             value={searchText}
                             onChange={handleSearch} 
                         />
                     </div>
-            <DataTable columns={columns} data={filteredData} pagination />
+             
+                  </div>
+                  <div className="row table-responsive-sm dataTable-container">
+                      <DataTable columns={columns} data={filteredData} pagination customStyles={customStyles} highlightOnHover />
+                  </div>
+
                 </div>
-            </div>
-        </div>
+               
+              </div>
+
+
+
+      
+                    
+                
     </>
   )
 }

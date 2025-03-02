@@ -1,22 +1,44 @@
-/* Augmenter la taille de la police dans DataTable */
-.dataTables_wrapper {
-    font-size: 18px !important;
+.div-position{
+    position: absolute;
+    top: 75px;
 }
 
-/* Augmenter la taille de la police pour les cellules du tableau */
-.dataTables_wrapper .rdt_TableCell{
-    font-size:25px;
-  } 
 
-/* Ajuster la taille des en-têtes */
-.dataTables_wrapper .rdt_TableHeader {
-    font-size: 20px !important;
+
+.dataTable-container {
+    font-size: 5rem; 
+    background-color: #fff; 
+    border-radius: 10px; 
+    padding: 15px;
+   
+}
+
+
+.dataTable-container .rdt_Table {
+    font-size: 5.1rem; 
+}
+
+
+.dataTable-container .rdt_TableHead {
+    background-color: #007bff; 
+    color: black;
     font-weight: bold;
 }
 
+/* Améliorer les lignes du tableau */
+.dataTable-container .rdt_TableRow {
+    border-bottom: 1px solid #ddd;
+}
 
-.rdt_Table {
-    font-size: 18px !important;
+/* Survol des lignes */
+.dataTable-container .rdt_TableRow:hover {
+    background-color: #f8f9fa; /* Gris clair au survol */
+}
+
+/* Style pour la pagination */
+.dataTable-container .rdt_Pagination {
+    font-size: 1rem;
+    padding: 10px;
 }
 
 

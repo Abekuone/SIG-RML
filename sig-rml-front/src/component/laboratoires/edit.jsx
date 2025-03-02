@@ -1,9 +1,18 @@
-//import { useState } from 'react';
+import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
+import Select from 'react-select';
 
 function EditLabo({ show, handleClose }) {
+
+  const [selectedOption, setSelectedOption] = useState(null);
+
+  const options = [
+    { value: 1, label: 'Etudiant' },
+    { value: 2, label: 'Responsable Laboratoire' },
+    { value: 3, label: 'Administrateur' },
+  ];
  
 
   return (
@@ -16,12 +25,15 @@ function EditLabo({ show, handleClose }) {
         </Modal.Header>
         <Modal.Body>
           <Form>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+           
 
-                <Form.Label>Responsable du laboratoire</Form.Label>
-                  <Form.Select
-                    type="text"
-                    autoFocus />
+            <Form.Group className="mb-3" controlId="role">
+              <Form.Label>Responsable de laboratoire</Form.Label>
+              <Select
+                value={selectedOption}
+                onChange={setSelectedOption}
+                options={options}
+              />
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">

@@ -6,70 +6,85 @@ import { CiUser } from "react-icons/ci";
 import { HiOutlineUserGroup } from "react-icons/hi2";
 import { FaRegCircle } from "react-icons/fa";
 import "./admin.css";
+//import { FaUser } from "react-icons/fa";
+
 
 const Admin = () => {
     return (
-        <div className="container position-sticky top-50">
-            <div className="card custom-card border-primary shadow-sm ">
-               
-                <div className="card-body">
-                    
-                    {/* Navigation Tabs */}
-                    <ul className="nav nav-tabs justify-content-center">
-                        <li className="nav-item">
-                            <a className="nav-link active" data-bs-toggle="tab" href="#users">Gestion Utilisateurs</a>
+        
+        <nav className="navbar navbar-expand-lg navbar-light shadow-sm">
+            <div className="  mx-auto container justify-content-center">
+                {/*<Link className="navbar-brand" to="/">Administration</Link>*/}
+                <button 
+                    className="navbar-toggler" 
+                    type="button" 
+                    data-bs-toggle="collapse" 
+                    data-bs-target="#navbarNav"
+                >
+                    <span className="navbar-toggler-icon"></span>
+                </button>
+                
+                <div className="row mx-auto d-flex  collapse navbar-collapse" id="navbarNav">
+                    <ul className="navbar-nav align-items-center justify-content-center">
+                        <li className='nav-item p-2 mx-3'>
+                            <Link to="/home" className="nav-link">Accueil</Link>
                         </li>
-                        <li className="nav-item">
-                            <a className="nav-link" data-bs-toggle="tab" href="#equipments">Gestion Materiels</a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link" data-bs-toggle="tab" href="#reservations">Gestions Réservations</a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link" data-bs-toggle="tab" href="#stats">Statistiques & Rapports</a>
-                        </li>
-                    </ul>
-
-                    {/* Content Tabs */}
-                    <div className="tab-content">
-                        {/* Utilisateurs */}
-                        <div id="users" className="tab-pane fade show active">
-                            <ul className="list-unstyled text-center d-flex justify-content-center gap-3">
-                                <li><Link to='/utilisateurs' className='link'><CiUser /> Utilisateurs</Link></li>
-                                <li><Link to='/groupes' className='link'><HiOutlineUserGroup /> Groupes</Link></li>
-                                <li><Link to='/droits' className='link'><FaRegCircle /> Droits</Link></li>
+                        
+                        {/* Gestion Utilisateurs */}
+                        <li className="nav-item dropdown p-2 mx-3">
+                            <button className="nav-link dropdown-toggle" id="userDropdown"  data-bs-toggle="dropdown">
+                                Gestion Utilisateurs
+                            </button>
+                            <ul className="dropdown-menu">
+                                <li><Link className="dropdown-item" to='/utilisateurs'><CiUser /> Utilisateurs</Link></li>
+                                <li><Link className="dropdown-item" to='/groupes'><HiOutlineUserGroup /> Groupes</Link></li>
+                                <li><Link className="dropdown-item" to='/droits'><FaRegCircle /> Droits</Link></li>
                             </ul>
-                        </div>
+                        </li>
 
-                        {/* Équipements */}
-                        <div id="equipments" className="tab-pane fade">
-                            <ul className="list-unstyled text-center d-flex justify-content-center gap-2">
-                                <li><Link to='/equipement' className='link'><FaRegCircle /> Équipements</Link></li>
-                                <li><Link to='/laboratoires' className='link'><FaRegCircle /> Laboratoires</Link></li>
+                        {/* Gestion Matériels */}
+                        <li className="nav-item dropdown p-2 mx-3">
+                            <button className="nav-link dropdown-toggle" id="equipmentDropdown"  data-bs-toggle="dropdown">
+                                Gestion Matériels
+                            </button>
+                            <ul className="dropdown-menu">
+                                <li><Link className="dropdown-item" to='/categorys'><FaRegCircle /> Categories</Link></li>
+                                <li><Link className="dropdown-item" to='/fichiers'><FaRegCircle /> Fichiers</Link></li>
+                                <li><Link className="dropdown-item" to='/equipement'><FaRegCircle /> Équipements</Link></li>
+                                <li><Link className="dropdown-item" to='/laboratoires'><FaRegCircle /> Laboratoires</Link></li>
                             </ul>
-                        </div>
+                        </li>
 
-                        {/* Réservations */}
-                        <div id="reservations" className="tab-pane fade">
-                            <ul className="list-unstyled text-center d-flex justify-content-center gap-3">
-                                <li><Link to='/reservations' className='link'><FaRegCircle /> Toutes</Link></li>
-                                <li><Link to='' className='link'><FaRegCircle /> En Cours</Link></li>
-                                <li><Link to='' className='link'><FaRegCircle /> En Attente</Link></li>
+                        {/* Gestions Réservations */}
+                        <li className="nav-item dropdown p-2 mx-3">
+                            <button className="nav-link dropdown-toggle" id="reservationDropdown"  data-bs-toggle="dropdown">
+                                Gestions Réservations
+                            </button>
+                            <ul className="dropdown-menu">
+                                <li><Link className="dropdown-item" to='/reservations'><FaRegCircle /> Reservations</Link></li>
+                                <li><Link className="dropdown-item" to=''><FaRegCircle /> Rapports</Link></li>
+                                
                             </ul>
-                        </div>
+                        </li>
 
                         {/* Statistiques & Rapports */}
-                        <div id="stats" className="tab-pane fade">
-                            <ul className="list-unstyled text-center d-flex justify-content-center gap-2">
-                                <li><Link to='/administration' className='link'><FaRegCircle /> Statistiques</Link></li>
-                                <li><Link to='' className='link'><FaRegCircle /> Rapports</Link></li>
+                        <li className="nav-item dropdown p-2 mx-3">
+                            <button className="nav-link dropdown-toggle" id="statsDropdown"  data-bs-toggle="dropdown">
+                                Statistiques & Rapports
+                            </button>
+                            <ul className="dropdown-menu">
+                                <li><Link className="dropdown-item" to='/administration'><FaRegCircle /> Statistiques</Link></li>
+                                <li><Link className="dropdown-item" to=''><FaRegCircle />Générer Rapports</Link></li>
                             </ul>
-                        </div>
-                    </div>
+                        </li>
 
+                        
+
+                    </ul>
+                    
                 </div>
             </div>
-        </div>
+        </nav>
     );
 }
 
