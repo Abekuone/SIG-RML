@@ -25,6 +25,8 @@ use App\Http\Controllers\CategoryEquipmentController;
 //     Route::post('password/reset', 'resetPassword')->middleware('log.action:Password Reset,User reset password');
 // });
 
+Route::post('/login', [UserController::class, 'keycloaklogin']);
+
 // Authentification avec Keycloak directement
 Route::get('/auth/login/redirect', [KeycloakApiAuthController::class, 'redirectToKeycloakForLogin']);
 Route::get('auth/login/callback', [KeycloakApiAuthController::class, 'handleKeycloakCallbackForLogin']);
