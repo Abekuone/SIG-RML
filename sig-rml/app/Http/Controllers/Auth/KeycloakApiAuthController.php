@@ -142,9 +142,9 @@ class KeycloakApiAuthController extends Controller
     public function keycloakLogout(Request $request, KeycloakService $keycloakService)
     {
         try {
-            $refreshtoken = $request->bearerToken();
+            // $refreshtoken = $request->bearerToken();
 
-            return $keycloakService->revokeToken($refreshtoken);
+            return $keycloakService->revokeToken();
 
             if (!$logoutSuccess) {
                 return response()->json([

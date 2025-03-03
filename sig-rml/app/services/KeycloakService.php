@@ -27,19 +27,6 @@ class KeycloakService
         $this->realm = config('keycloak.realm');
         $this->clientId = config('keycloak.client_id');
         $this->clientSecret = config('keycloak.client_secret');
-
-        $this->clientConfigs = [
-            'agent' => [
-                'client_id' => config('keycloak.client_id'),      // Client ID pour le rôle AGENT
-                'client_secret' => config('keycloak.client_secret'),   // Secret pour le client AGENT
-                'group' => '/DEIE/EIES',
-            ],
-            'responsable' => [
-                'client_id' => config('keycloak.second_redirect_uri'),      // Client ID pour le rôle RESPONSABLE
-                'client_secret' => config('keycloak.second_client_secret'),   // Secret pour le client RESPONSABLE
-                'group' => '/DEIE'
-            ]
-        ];
     }
 
     public function getAccessToken()
@@ -62,29 +49,6 @@ class KeycloakService
         }
     }
 
-    public function getPromoteurToken($username, $password)
-    {
-        $url = "{$this->baseUrl}/realms/{$this->realm}/protocol/openid-connect/token";
-
-        try {
-            $response = $this->client->post($url, [
-                'form_params' => [
-                    'grant_type'    => 'password',
-                    'client_id'     => $this->clientId,
-                    'client_secret' => $this->clientSecret,
-                    'username'      => $username,
-                    'password'      => $password,
-                ],
-            ]);
-
-            $body = json_decode($response->getBody(), true);
-            return $body ?? null; // Renvoie le token d'accès si disponible
-        } catch (RequestException $e) {
-            Log::error('Erreur d\'authentification Keycloak', ['message' => $e->getMessage()]);
-            return null;
-        }
-    }
-
     public function getAccessTokenWithCredentials($username, $password)
     {
         $url = "{$this->baseUrl}/realms/{$this->realm}/protocol/openid-connect/token";
@@ -94,8 +58,8 @@ class KeycloakService
             $agentTokenResponse = $this->client->post($url, [
                 'form_params' => [
                     'grant_type'    => 'password',
-                    'client_id'     => $this->clientConfigs['agent']['client_id'],
-                    'client_secret' => $this->clientConfigs['agent']['client_secret'],
+                    'client_id'     => $this->clientId,
+                    'client_secret' => $this->clientSecret,
                     'username'      => $username,
                     'password'      => $password,
                 ],
@@ -108,13 +72,13 @@ class KeycloakService
             $responsableTokenResponse = $this->client->post($url, [
                 'form_params' => [
                     'grant_type'    => 'password',
-                    'client_id'     => $this->clientConfigs['responsable']['client_id'],
-                    'client_secret' => $this->clientConfigs['responsable']['client_secret'],
+                    'client_id'     => $this->clientId,
+                    'client_secret' => $this->clientSecret,
                     'username'      => $username,
                     'password'      => $password,
                 ],
                 'headers' => [
-                    'X-Group-Type' => 'current'  // Paramètre personnalisé pour indiquer qu'on veut le groupe parent
+                    'X-Group-Type' => 'current'
                 ]
             ]);
 
@@ -159,32 +123,29 @@ class KeycloakService
         }
     }
 
-    public function revokeToken($refreshtoken)
+    public function revokeToken()
     {
         $url = "{$this->baseUrl}/realms/{$this->realm}/protocol/openid-connect/logout";
 
-        foreach ($this->clientConfigs as $config) {
-            try {
-                $response = $this->client->post($url, [
-                    'form_params' => [
-                        'client_id'     => $config['client_id'],
-                        'client_secret' => $config['client_secret'],
-                        'refresh_token' => $refreshtoken,
-                    ],
-                ]);
+        try {
+            $response = $this->client->post($url, [
+                'form_params' => [
+                    'client_id'     => $this->clientId,
+                    'client_secret' => $this->clientSecret,
+                ],
+            ]);
 
-                if ($response->getStatusCode() === 204) {
-                    // Log::info('Token révoqué avec succès.', [
-                    //     'client_id' => $config['client_id'],
-                    // ]);
-                    return true; // Révocation réussie
-                }
-            } catch (RequestException $e) {
-                Log::warning('Échec de la révocation du token.', [
-                    'client_id' => $config['client_id'],
-                    'message' => $e->getMessage(),
-                ]);
+            if ($response->getStatusCode() === 204) {
+                // Log::info('Token révoqué avec succès.', [
+                //     'client_id' => $config['client_id'],
+                // ]);
+                return true; // Révocation réussie
             }
+        } catch (RequestException $e) {
+            Log::warning('Échec de la révocation du token.', [
+                'client_id' => $this->clientId,
+                'message' => $e->getMessage(),
+            ]);
         }
 
         Log::error('Échec de la révocation du token pour tous les clients.');
