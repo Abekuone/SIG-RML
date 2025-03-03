@@ -26,7 +26,7 @@
             }
 
             if (($user = Auth::user())) {
-                // dd($user);
+                dd($user);
                 echo '<a href="/auth/logout">Se déconnecter</a>';
             }
         @endphp

@@ -92,7 +92,6 @@ class KeycloakApiAuthController extends Controller
         return Socialite::driver('keycloak')->redirect();
     }
 
-    // Callback après authentification
     public function handleKeycloakCallbackForLogin()
     {
         try {
@@ -110,13 +109,10 @@ class KeycloakApiAuthController extends Controller
 
             Auth::login($user);
 
-            // Stocke l'id_token si disponible
             session(['keycloak_id_token' => $socialUser->accessTokenResponseBody['id_token'] ?? null]);
 
-            // Génère un token pour l'API (si besoin)
             $token = $user->createToken('keycloak_token')->plainTextToken;
 
-            // Vérifie si c'est une requête API ou un accès web
             if (request()->expectsJson()) {
                 return response()->json([
                     'user'  => $user,
