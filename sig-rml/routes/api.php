@@ -28,9 +28,9 @@ use App\Http\Controllers\CategoryEquipmentController;
 Route::post('/login', [UserController::class, 'keycloaklogin']);
 
 // Authentification avec Keycloak directement
-Route::get('/auth/login/redirect', [KeycloakApiAuthController::class, 'redirectToKeycloakForLogin']);
-Route::get('auth/login/callback', [KeycloakApiAuthController::class, 'handleKeycloakCallbackForLogin']);
-Route::post('/auth/logout', [KeycloakApiAuthController::class, 'keycloakLogout']);
+Route::get('/auth/redirect', [KeycloakApiAuthController::class, 'redirectToKeycloakForLogin']);
+Route::get('/auth/callback', [KeycloakApiAuthController::class, 'handleKeycloakCallbackForLogin']);
+Route::get('/auth/logout', [KeycloakApiAuthController::class, 'keycloakLogout']);
 // Register directement avec API Keycloak
 Route::post('/register', [KeycloakApiAuthController::class, 'keycloakRegister']);
 

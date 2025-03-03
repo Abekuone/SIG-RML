@@ -106,7 +106,7 @@ class UserController extends Controller
         $username = $request->input('username');
         $password = $request->input('password');
 
-        Log::info($request->all());
+        // Log::info($request->all());
 
         $tokens = $keycloakService->getAccessTokenWithCredentials($username, $password);
         if ($tokens) {

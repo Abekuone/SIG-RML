@@ -174,9 +174,9 @@ class KeycloakService
                 ]);
 
                 if ($response->getStatusCode() === 204) {
-                    Log::info('Token révoqué avec succès.', [
-                        'client_id' => $config['client_id'],
-                    ]);
+                    // Log::info('Token révoqué avec succès.', [
+                    //     'client_id' => $config['client_id'],
+                    // ]);
                     return true; // Révocation réussie
                 }
             } catch (RequestException $e) {

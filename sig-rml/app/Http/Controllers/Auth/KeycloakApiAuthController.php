@@ -101,7 +101,6 @@ class KeycloakApiAuthController extends Controller
                 return response()->json(['error' => 'Utilisateur non trouvé'], 401);
             }
 
-            // Vérifier si l'utilisateur existe dans la base de données
             $user = User::where('email', $socialUser->email)->first();
 
             if (!$user) {
@@ -110,7 +109,6 @@ class KeycloakApiAuthController extends Controller
 
             Auth::login($user);
 
-            // Générer un token d'authentification
             $token = $user->createToken('keycloak_token')->plainTextToken;
 
             return redirect('/');
