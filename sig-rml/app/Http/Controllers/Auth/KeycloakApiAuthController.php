@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Log;
 use App\Models\User;
 use App\services\KeycloakService;
 use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Support\Facades\Auth;
 
 
 class KeycloakApiAuthController extends Controller

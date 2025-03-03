@@ -17,7 +17,7 @@
     </head>
     <body class="font-sans antialiased dark:bg-black dark:text-white/50">
         <h1>Bienvenue sur SIG RML</h1>
-        <a href="/auth/login/redirect">Se connecter</a>
+        <a href="/auth/redirect">Se connecter</a>
 
         @php
             use Illuminate\Support\Facades\Auth;
