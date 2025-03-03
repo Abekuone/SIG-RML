@@ -22,7 +22,6 @@
 
 
             if (!($user = Auth::user())) {
-                dd($user);
                 echo '<a href="/auth/redirect">Se connecter</a>';
             }
 

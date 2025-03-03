@@ -11,6 +11,7 @@ use App\Models\User;
 use App\services\KeycloakService;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 
 class KeycloakApiAuthController extends Controller
@@ -109,14 +110,21 @@ class KeycloakApiAuthController extends Controller
 
             Auth::login($user);
 
+            // Stocke l'id_token si disponible
+            session(['keycloak_id_token' => $socialUser->accessTokenResponseBody['id_token'] ?? null]);
+
+            // Génère un token pour l'API (si besoin)
             $token = $user->createToken('keycloak_token')->plainTextToken;
 
-            return redirect('/');
+            // Vérifie si c'est une requête API ou un accès web
+            if (request()->expectsJson()) {
+                return response()->json([
+                    'user'  => $user,
+                    'token' => $token,
+                ]);
+            }
 
-            return response()->json([
-                'user'  => $user,
-                'token' => $token,
-            ]);
+            return redirect('/');
         } catch (\Exception $e) {
             Log::error('Erreur Keycloak', ['exception' => $e]);
 
@@ -139,34 +147,27 @@ class KeycloakApiAuthController extends Controller
         );
     }
 
-    public function keycloakLogout(Request $request, KeycloakService $keycloakService)
+    public function keycloakLogout(Request $request)
     {
-        try {
-            // $refreshtoken = $request->bearerToken();
+        $keycloakBaseUrl = env('KEYCLOAK_BASE_URL');
+        $realm = env('KEYCLOAK_REALM');
+        $clientId = env('KEYCLOAK_CLIENT_ID');
+        $redirectUri = env('KEYCLOAK_LOGOUT_REDIRECT_URI', url('/'));
 
-            return $keycloakService->revokeToken();
-
-            if (!$logoutSuccess) {
-                return response()->json([
-                    'status' => 'error',
-                    'message' => 'Token non fourni.'
-                ], 400);
-            }
-            else{
-                Auth::logout();
-                return response()->json([
-                    'status' => 'success',
-                    'message' => 'Déconnexion réussie.'
-                ], 200);
-            }
-
-        } catch (\Exception $e) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Une erreur est survenue lors de la déconnexion.',
-                'error' => $e->getMessage()
-            ], 500);
+        $idToken = session('keycloak_id_token');
+        if (!$idToken) {
+            return redirect('/')->with('error', 'ID Token not found.');
         }
+
+        $logoutUrl = "$keycloakBaseUrl/realms/$realm/protocol/openid-connect/logout?id_token_hint=$idToken&client_id=$clientId&post_logout_redirect_uri=$redirectUri";
+
+        // $accessToken = session('keycloak_access_token');
+        // $logoutUrl = "$keycloakBaseUrl/realms/$realm/protocol/openid-connect/logout?client_id=$clientId&post_logout_redirect_uri=$redirectUri&token=$accessToken";
+
+        Session::flush();
+        auth()->logout();
+
+        return redirect()->to($logoutUrl);
     }
 
     function generateUsername(string $firstName, string $lastName): string
